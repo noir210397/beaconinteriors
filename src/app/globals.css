@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Single+Day&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.carousel {
+    scrollbar-width: none; 
+    -ms-overflow-style: none; /* For Internet Explorer and Edge */
+  }
+  
+  .carousel::-webkit-scrollbar {
+    width: 0; /* For WebKit browsers (Chrome, Safari) */
+    display: none; /* For older versions of WebKit */
+  }
+  *{
+    scroll-behavior: smooth;
+  }
