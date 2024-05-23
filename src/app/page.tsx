@@ -4,6 +4,7 @@ import BearSection from "@/components/home/BearSection";
 import Hero from "@/components/home/Hero";
 import OurProjects from "@/components/home/OurProjects";
 import Philosophy from "@/components/home/Philosophy";
+import Services from "@/components/home/Services";
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
       </div>
       {/* <BearSection /> */}
       <OurProjects />
+      <Services />
     </main>
   );
 }
