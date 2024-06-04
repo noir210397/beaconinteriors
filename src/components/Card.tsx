@@ -10,7 +10,7 @@ const CardInformation = tw.div` mt-2`;
 const Card = ({ name, price, image, style }: CardType) => {
   return (
     <CardWrapper
-      href={`product/${name.replaceAll(" ", "-").toLowerCase()}`}
+      href={`/product/${name.replaceAll(" ", "-").toLowerCase()}`}
       className={`${style}`}
     >
       <div className="lg:h-64 md:h-56 h-48 relative">
