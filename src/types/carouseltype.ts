@@ -1,5 +1,6 @@
 interface CardType {
-    image?:string,
-    price?:number,
-    name?:string
+    image?: string,
+    price?: number,
+    name?: string,
+    style?: string
 }

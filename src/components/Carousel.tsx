@@ -3,8 +3,8 @@ import { AiOutlineArrowRight } from "react-icons/ai";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import React, { useEffect, useRef, useState } from "react";
 import tw from "tailwind-styled-components";
-import CarouselCard from "./CarouselCard";
-const CarouselWrapper = tw.div` carousel flex  overflow-x-scroll gap-3 pb-2 snap-x  scroll-smooth  `;
+import Card from "./Card";
+const CarouselWrapper = tw.div` carousel flex  overflow-x-scroll gap-3 pb-2 snap-x snap-mandatory  scroll-smooth  `;
 const Container = tw.div`p-2`;
 const ButtonConatiner = tw.div` flex justify-center items-center py-4`;
 
@@ -50,13 +50,13 @@ const Carousel = () => {
   return (
     <Container>
       <CarouselWrapper ref={wrapperRef} onScroll={checkScrollPosition}>
-        <CarouselCard />
-        <CarouselCard />
-        <CarouselCard />
-        <CarouselCard />
-        <CarouselCard />
-        <CarouselCard />
-        <CarouselCard />
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+        <Card />
       </CarouselWrapper>
       <ButtonConatiner>
         <div className=" flex gap-5">

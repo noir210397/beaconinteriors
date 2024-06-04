@@ -1,13 +1,13 @@
 import { AiOutlineHeart } from "react-icons/ai";
-import React from "react";
+import React, { ComponentProps } from "react";
 import tw from "tailwind-styled-components";
 import Image from "next/image";
-const Card = tw.div`w-[90%] max-w-96 flex-shrink-0 snap-center`;
+const CardWrapper = tw.div`w-[90%] max-w-96 flex-shrink-0 snap-center`;
 const CardInformation = tw.div` mt-2`;
 
-const CarouselCard = ({ name, price, image }: CardType) => {
+const Card = ({ name, price, image, style }: CardType) => {
   return (
-    <Card>
+    <CardWrapper className={`${style}`}>
       <div className="lg:h-64 md:h-56 h-48 relative">
         <Image
           src="/images/hero.jpg"
@@ -30,8 +30,8 @@ const CarouselCard = ({ name, price, image }: CardType) => {
           </button>
         </div>
       </CardInformation>
-    </Card>
+    </CardWrapper>
   );
 };
 
-export default CarouselCard;
+export default Card;

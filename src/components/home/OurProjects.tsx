@@ -4,10 +4,12 @@ import SectionHeaders from "../SectionHeaders";
 import image from "../../../public/images/interior.jpg";
 import image2 from "../../../public/images/interior2.jpg";
 import SectionLinks from "./SectionLinks";
+import InfiniteScroller from "./InfiniteScroller";
 
 const OurProjects = () => {
   return (
     <section>
+      <InfiniteScroller />
       <SectionHeaders topheader="our" bottomheader="projects" />
       <div className="relative item  flex justify-end align-top  flex-nowrap overflow-hidden">
         <Image

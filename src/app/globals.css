@@ -18,3 +18,15 @@
   *{
     scroll-behavior: smooth;
   }
+  
+  @keyframes scroll {
+    to{
+      transform: translateX(calc(-50% - 20px));
+    }
+    
+    
+  }
+  .active{
+    animation: scroll 10s linear infinite ;
+  }
+  
