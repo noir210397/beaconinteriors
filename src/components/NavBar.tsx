@@ -11,15 +11,15 @@ import Logo from "./Logo";
 import Link from "next/link";
 import tw from "tailwind-styled-components";
 type CartProps = {
-  isopen: boolean;
+  $isopen: boolean;
 };
 const LinkWrapper = tw.div` flex gap-10 pt-5 lg:pt-0 lg:flex-row flex-col `;
 const Cart = tw.div<CartProps>`fixed ease-in-out duration-500 cart bg-mygray2  flex justify-center items-center inset-0 top-16 md:start-1/2  lg:start-2/3 ${(
   p
-) => (p.isopen ? "" : "translate-x-full transition-transform ")} `;
+) => (p.$isopen ? "" : "translate-x-full transition-transform ")} `;
 const SearchModal = tw.div<CartProps>` fixed search  transition-all inset-0 bg-mygray  flex justify-center items-center ${(
   p
-) => (p.isopen ? "" : "hidden")} `;
+) => (p.$isopen ? "" : "hidden")} `;
 
 const NavBar = () => {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
@@ -122,13 +122,13 @@ const NavBar = () => {
           </span>
         </button>
       </div>
-      <Cart isopen={cartOpen}>
+      <Cart $isopen={cartOpen}>
         <button className="text-2xl absolute top-2 right-4" onClick={openCart}>
           <AiOutlineClose />
         </button>
         <div className="capitalize font-bold">no cart items</div>
       </Cart>
-      <SearchModal isopen={searchOpen}>
+      <SearchModal $isopen={searchOpen}>
         <button
           onClick={openSearch}
           className="text-2xl absolute top-2 right-4"

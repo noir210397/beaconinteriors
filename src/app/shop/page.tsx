@@ -11,12 +11,12 @@ const Shop = () => {
   return (
     <div>
       <div className="grid grid-cols-2 gap-6 p-6">
-        {arr.map((item, index) => (
+        {/* {arr.map((item, index) => (
           <Card
             key={item}
             style={`min-w-full ${index % 2 === 0 ? "mt-6" : ""}`}
           />
-        ))}
+        ))} */}
       </div>
     </div>
   );

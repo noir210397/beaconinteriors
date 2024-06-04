@@ -1,17 +1,22 @@
 "use client";
 import { AiOutlineArrowRight } from "react-icons/ai";
 import { AiOutlineArrowLeft } from "react-icons/ai";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import tw from "tailwind-styled-components";
 import Card from "./Card";
+import { Product } from "@/products";
+import Link from "next/link";
 const CarouselWrapper = tw.div` carousel flex  overflow-x-scroll gap-3 pb-2 snap-x snap-mandatory  scroll-smooth  `;
 const Container = tw.div`p-2`;
 const ButtonConatiner = tw.div` flex justify-center items-center py-4`;
+// const arr = randNum(8);
 
-const Carousel = () => {
+const Carousel = ({ data }: { data: Product[] }) => {
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const [isPrevDisabled, setPrevDisabled] = useState(true);
   const [isNextDisabled, setNextDisabled] = useState(false);
+  // const data = useMemo(() => getData([0, 18, 13, 16, 8, 9, 10, 17]), []);
+  console.log("renering");
 
   const checkScrollPosition = () => {
     if (wrapperRef.current) {
@@ -50,13 +55,15 @@ const Carousel = () => {
   return (
     <Container>
       <CarouselWrapper ref={wrapperRef} onScroll={checkScrollPosition}>
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
+        {data.map((item) => (
+          <Card
+            image={item.images}
+            name={item.name}
+            price={item.price}
+            key={`${item.name}-${item.price}`}
+            style="w-[90%] block max-w-96 flex-shrink-0 snap-center"
+          />
+        ))}
       </CarouselWrapper>
       <ButtonConatiner>
         <div className=" flex gap-5">
