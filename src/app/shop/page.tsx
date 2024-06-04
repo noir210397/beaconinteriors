@@ -1,5 +1,3 @@
-"use client";
-
 import Card from "@/components/Card";
 import { data } from "@/products";
 import { useRouter, useSearchParams } from "next/navigation";
