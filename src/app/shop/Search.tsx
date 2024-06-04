@@ -46,12 +46,12 @@ const Search = () => {
   const dataToDisplay = dataToShow();
   return (
     <div>
-      <div className="relative p-3 flex flex-col lg:flex-row lg:items-start items-center ">
-        <div className="lg:sticky static w-[250px] px-5 h-[250px] top-[calc(64px+12px)]">
+      <div className="relative p-3 flex flex-col lg:flex-row lg:items-start items-center gap-[20px] ">
+        <div className="lg:sticky static w-[250px] px-5  top-[calc(64px+12px)]">
           <div className="py-2 border-b-2 border-primary cursor-pointer text-lg font-semibold">
             Categories
           </div>
-          <form action="">
+          <form action="" className="py-3">
             <div className="py-1">
               <input
                 type="checkbox"
@@ -76,7 +76,7 @@ const Search = () => {
             </div>
           </form>
         </div>
-        <div className="grid max-[600px]:grid-cols-1 min-[600px]:grid-cols-2 gap-[50px] py-[50px] px-3 flex-1  ">
+        <div className="grid max-[600px]:gap-[20px]  max-[600px]:py-[10px] max-[600px]:grid-cols-1 min-[600px]:grid-cols-2 min-[600px]:gap-[50px] min-[600px]:py-[50px] px-3 flex-1  ">
           {dataToDisplay &&
             dataToDisplay.map((product, index) => (
               <Card
@@ -85,7 +85,9 @@ const Search = () => {
                 price={product.price}
                 key={`${product.name}-${product.price}`}
                 style={`${
-                  index % 2 === 0 ? "" : "-mt-[50px] "
+                  index % 2 === 0
+                    ? ""
+                    : "min-[600px]:-mt-[50px] max-[600px]:mt-0 "
                 } max-w-[400px] place-self-center w-full `}
               />
             ))}
