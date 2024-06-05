@@ -29,7 +29,7 @@ const Hero = () => {
   };
   return (
     <div
-      className="h-[calc(100vh-80px)]  bg-center bg-cover flex items-center relative px-5 "
+      className="h-[calc(100vh-80px)]  bg-center bg-cover flex items-center relative px-5 overflow-hidden "
       style={{ backgroundImage: `url("/images/hero.jpg")` }}
       onMouseEnter={onEnter}
       onMouseLeave={onLeave}

@@ -49,14 +49,14 @@ const NavBar = () => {
     setCartOpen(!cartOpen);
   };
   return (
-    <nav className="flex border-b-2   gap-2 px-3 justify-between items-center  h-16 fixed w-full top-0 z-20 bg-secondary">
+    <nav className="flex border-b-2   gap-2 px-3 justify-between items-center  h-16 fixed w-full top-0 z-20 bg-secondary ">
       <Logo />
       <div
         className={` flex-1 ease-in-out duration-500  lg:p-0 lg:static lg:translate-x-0 inset-0  flex lg:items-center lg:justify-center fixed end-0 md:end-1/2 top-16 flex-col gap-2  lg:bg-inherit bg-mygray2  transition-transform px-4 py-8  ${
           menuOpen ? "" : "-translate-x-full"
         }`}
       >
-        <div className="flex  lg:gap-2 gap-8 lg:absolute lg:right-0 lg:top-1/2 lg:-translate-y-1/2 items-center">
+        <div className="flex  min-[500px]:hidden  lg:gap-2 gap-8 lg:absolute lg:right-0 lg:top-1/2 lg:-translate-y-1/2 items-center">
           <button
             onClick={openSearch}
             className="text-2xl font-extrabold lg:text-xl  "
@@ -70,7 +70,7 @@ const NavBar = () => {
             <BsPerson />
           </Link>
           <Link
-            href={`/login`}
+            href={`/saved`}
             className="text-2xl font-extrabold lg:text-xl  flex justify-center items-center  "
           >
             <AiOutlineHeart />
@@ -104,6 +104,23 @@ const NavBar = () => {
         </LinkWrapper>
       </div>
       <div className="flex items-center justify-center gap-2 ">
+        <div className="hidden min-[500px]:flex  gap-2  items-center">
+          <button onClick={openSearch} className="text-xl font-extrabold ">
+            <BiSearch />
+          </button>
+          <Link
+            href={`/login`}
+            className=" font-extrabold text-xl  flex justify-center items-center "
+          >
+            <BsPerson />
+          </Link>
+          <Link
+            href={`/saved`}
+            className=" font-extrabold text-xl  flex justify-center items-center  "
+          >
+            <AiOutlineHeart />
+          </Link>
+        </div>
         <button
           onClick={openCart}
           className="flex justify-center items-center gap-1 text-lg  "

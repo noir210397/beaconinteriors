@@ -56,7 +56,7 @@ export interface Product {
 
 export const data: Product[] = [
     {
-        name: "alano armchair",
+        name: "Alano Armchair",
         price: 1500,
         description: 'The Alano Armchair is a stylish and contemporary piece of furniture designed to add a touch of elegance and comfort to any living space. Characterized by its sleek lines and minimalist design, the Alano Armchair typically features a sturdy frame crafted from high-quality wood or metal, providing both durability and aesthetic appeal. The seat and backrest are often upholstered in premium fabric or leather, offering a plush and inviting surface for relaxation. Its ergonomic design ensures optimal support and comfort, making it an ideal choice for both casual and formal settings. With its blend of modern sophistication and functional design, the Alano Armchair is a versatile addition to any home or office decor.',
         inStock: 2,

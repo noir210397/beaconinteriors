@@ -1,7 +1,7 @@
 import tw from "tailwind-styled-components";
 import FooterLinks from "./footer/FooterLinks";
 
-const Wrapper = tw.footer`p-4 flex justify-between gap-4 flex-wrap text-primary`;
+const Wrapper = tw.footer`p-4 flex max-[400px]:flex-col min-[400px]:flex-row justify-between gap-4 flex-wrap text-primary`;
 const Address = tw.div``;
 interface Links {
   header: string;
@@ -51,7 +51,7 @@ const Footer = () => {
           </div>
         </form>
       </div>
-      <div className="flex-1 max-w-xl min-w-[400px]  grid grid-cols-2">
+      <div className="flex-1  max-[400px]:max-w-xl min-[400px]:min-w-[300px]  grid grid-cols-2">
         <FooterLinks header={generalLinks.header} links={generalLinks.links} />
         <FooterLinks header={socialLinks.header} links={socialLinks.links} />
         <FooterLinks header={companyLinks.header} links={companyLinks.links} />

@@ -4,7 +4,7 @@ interface Links {
 }
 const FooterLinks = ({ header, links }: Links) => {
   return (
-    <div>
+    <div className="">
       <div className="text-xl font-extrabold capitalize">{header}</div>
       <ul>
         {links.map((item) => {

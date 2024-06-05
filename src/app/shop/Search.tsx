@@ -10,13 +10,13 @@ const Search = () => {
   const params = useSearchParams();
   const filter = params.get("filter");
   const pageNumber = params.get("page") || "1";
-  const furnitureRef = useRef<HTMLInputElement | null>(null);
-  const lightingRef = useRef<HTMLInputElement | null>(null);
+  //   const furnitureRef = useRef<HTMLInputElement | null>(null);
+  //   const lightingRef = useRef<HTMLInputElement | null>(null);
   function change(e: ChangeEvent<HTMLInputElement>) {
     router.push(`/shop/?filter=${e.target.value}`);
-    if (e.target.value === "furniture") {
-      lightingRef.current!.checked = false;
-    } else furnitureRef.current!.checked = false;
+    // if (e.target.value === "furniture") {
+    //   lightingRef.current!.checked = false;
+    // } else furnitureRef.current!.checked = false;
   }
   function getData() {
     if (filter === "furniture")
@@ -59,7 +59,8 @@ const Search = () => {
                 name="categories"
                 onChange={change}
                 value={`furniture`}
-                ref={furnitureRef}
+                // ref={furnitureRef}
+                checked={filter === "furniture"}
               />
               <label className="uppercase">furniture</label>
             </div>
@@ -70,7 +71,8 @@ const Search = () => {
                 name="categories"
                 value={`lighting`}
                 onChange={change}
-                ref={lightingRef}
+                // ref={lightingRef}
+                checked={filter === "lighting"}
               />
               <label className="uppercase">lighting</label>
             </div>

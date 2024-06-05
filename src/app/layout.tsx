@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`font-lora bg-secondary  text-mydark  overflow-x-hidden text-sm lg:text-base min-h-screen flex flex-col`}
+        className={`font-lora  bg-secondary  text-mydark  overflow-x-hidden text-sm lg:text-base min-h-screen w-screen flex flex-col`}
       >
         <NavBar />
         <div className="mt-16 flex-1 border-2 border-red-700 relative ">
