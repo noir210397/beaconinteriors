@@ -23,7 +23,7 @@ const generalLinks: Links = {
 const Footer = () => {
   return (
     <Wrapper>
-      <div className="flex-1 max-w-xl min-w-[200px] ">
+      <div className="flex-1 max-[400px]:max-w-xl min-[400px]:min-w-[300px] min-w-[200px] ">
         <div className="lg:text-5xl md:text-4xl text-3xl font-semibold font-single uppercase text-primary ">
           our newsletter
         </div>

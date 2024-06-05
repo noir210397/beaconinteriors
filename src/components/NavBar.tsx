@@ -20,6 +20,7 @@ const Cart = tw.div<CartProps>`fixed ease-in-out duration-500 cart bg-mygray2  f
 const SearchModal = tw.div<CartProps>` fixed search  transition-all inset-0 bg-mygray  flex justify-center items-center ${(
   p
 ) => (p.$isopen ? "" : "hidden")} `;
+const links = ["showroom", "projects", "interior design", "revamping", "shop"];
 
 const NavBar = () => {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
@@ -77,30 +78,15 @@ const NavBar = () => {
           </Link>
         </div>
         <LinkWrapper>
-          <Link
-            className="uppercase text-mydark hover:underline decoration-2 decoration-lime-300 font-extrabold lg:font-semibold text-lg lg:text-base"
-            href={`/showroom`}
-          >
-            showroom
-          </Link>
-          <Link
-            className="uppercase text-mydark hover:underline decoration-2 decoration-lime-300 font-extrabold lg:font-semibold text-lg lg:text-base"
-            href={`/projects`}
-          >
-            projects
-          </Link>
-          <Link
-            className="uppercase text-mydark hover:underline decoration-2 decoration-lime-300 font-extrabold lg:font-semibold text-lg lg:text-base"
-            href={`/services`}
-          >
-            services
-          </Link>
-          <Link
-            className="uppercase text-mydark hover:underline decoration-2 decoration-lime-300 font-extrabold lg:font-semibold text-lg lg:text-base"
-            href={`/shop`}
-          >
-            shop
-          </Link>
+          {links.map((link) => (
+            <Link
+              key={link}
+              className="uppercase text-mydark hover:underline decoration-2 decoration-primary font-extrabold lg:font-semibold text-lg lg:text-base"
+              href={`/showroom`}
+            >
+              {link}
+            </Link>
+          ))}
         </LinkWrapper>
       </div>
       <div className="flex items-center justify-center gap-2 ">
