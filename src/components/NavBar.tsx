@@ -20,7 +20,28 @@ const Cart = tw.div<CartProps>`fixed ease-in-out duration-500 cart bg-mygray2  f
 const SearchModal = tw.div<CartProps>` fixed search  transition-all inset-0 bg-mygray  flex justify-center items-center ${(
   p
 ) => (p.$isopen ? "" : "hidden")} `;
-const links = ["showroom", "projects", "interior design", "revamping", "shop"];
+const links = [
+  {
+    name: "showroom",
+    path: "/showroom",
+  },
+  {
+    name: "projects",
+    path: "/projects",
+  },
+  {
+    name: "interior design",
+    path: "/interior-design",
+  },
+  {
+    name: "revamping",
+    path: "/revamping",
+  },
+  {
+    name: "shop",
+    path: "/shop",
+  },
+];
 
 const NavBar = () => {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
@@ -80,11 +101,11 @@ const NavBar = () => {
         <LinkWrapper>
           {links.map((link) => (
             <Link
-              key={link}
+              key={link.name}
               className="uppercase text-mydark hover:underline decoration-2 decoration-primary font-extrabold lg:font-semibold text-lg lg:text-base"
-              href={`/showroom`}
+              href={`${link.path}`}
             >
-              {link}
+              {link.name}
             </Link>
           ))}
         </LinkWrapper>
