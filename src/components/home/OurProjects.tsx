@@ -8,7 +8,7 @@ import InfiniteScroller from "./InfiniteScroller";
 
 const OurProjects = () => {
   return (
-    <section>
+    <section className="">
       <InfiniteScroller />
       <SectionHeaders topheader="our" bottomheader="projects" />
       <div className="relative item  flex justify-end align-top  flex-nowrap overflow-hidden">

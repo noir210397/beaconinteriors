@@ -82,12 +82,12 @@ const Hero = () => {
       >
         <AiOutlineArrowRight />
       </button>
-      <motion.div
+      {/* <motion.div
         animate={{ bottom: "100vh" }}
         initial={{ left: 0, right: 0, bottom: 0, top: 0 }}
         transition={{ duration: 0.6, ease: "linear", delay: 2 }}
         className="absolute  bg-secondary z-[0]"
-      ></motion.div>
+      ></motion.div> */}
     </div>
   );
 };
