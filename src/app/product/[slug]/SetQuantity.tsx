@@ -23,14 +23,14 @@ const SetQuantity = forwardRef<HTMLDivElement, Props>(
       }
     }
     return (
-      <div className="flex px-2 justify-center items-center border border-green-700 py-2 lg:max-w-xl ">
+      <div className="flex w-full  md:max-w-[200px] justify-center items-center py-2 ">
         <button
           className="size-9 bg-white font-bold text-primary hover:text-white hover:bg-primary transition-colors  rounded-full flex justify-center items-center"
           onClick={decrease}
         >
           <AiOutlineMinus />
         </button>
-        <div ref={ref} className="flex-1">
+        <div ref={ref} className="flex-1 text-center text-lg font-bold">
           {number}
         </div>
         <button

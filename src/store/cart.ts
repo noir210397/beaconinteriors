@@ -1,25 +1,32 @@
 import { Product, data } from "@/products";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "./store";
-interface ProductWithQuantity extends Product {
+import { Bounce, toast } from "react-toastify";
+export interface ProductWithQuantity {
+    name: string,
+    inStock: number
     quantity: number
+    price: number
 }
-function getItem(): false | ProductWithQuantity[] {
+interface Cart {
+    items: ProductWithQuantity[],
+    totalItemsInCart: number,
+    totalPriceOfItemsInCart: number
+}
+export function getItem(): false | Cart {
     const cartItem = localStorage.getItem("cart");
-
     if (cartItem) {
         try {
             return JSON.parse(cartItem);
         } catch (error) {
-            // console.error("Error parsing cart item:", error);
-            return false; // or handle the error as needed
+            return false;
         }
     } else {
         return false;
     }
 }
 
-const initialState: [] | ProductWithQuantity[] = getItem() || []
+const initialState: Cart = getItem() || { items: [], totalItemsInCart: 0, totalPriceOfItemsInCart: 0 }
 
 const cartSlice = createSlice(
     {
@@ -28,46 +35,127 @@ const cartSlice = createSlice(
         reducers: {
             addToCart: (state, action: PayloadAction<string>) => {
                 const name = action.payload
-                const itemInCart = state.find(item => item.name === name)
+                const itemInCart = state.items.find(item => item.name === name)
                 if (!itemInCart) {
-                    const item = data.find(item => item.name === name);
-                    if (item) {
-                        state.push({ ...item, quantity: 1 });
+                    const product = data.find(item => item.name === name);
+                    if (product) {
+                        const { name, inStock, price } = product;
+                        state.items.push({ name, inStock, price, quantity: 1 });
+                        state.totalItemsInCart = state.items.reduce((acc, value) => {
+                            return value.quantity + acc
+                        }, 0)
+                        state.totalPriceOfItemsInCart = state.items.reduce((acc, value) => {
+                            return (value.quantity * value.price) + acc
+                        }, 0)
+                        localStorage.setItem("cart", JSON.stringify(state))
+                        toast(`item added to cart`)
                     }
                     else return
                 }
                 else {
                     itemInCart.quantity += 1
+                    state.totalItemsInCart = state.items.reduce((acc, value) => {
+                        return value.quantity + acc
+                    }, 0)
+                    state.totalPriceOfItemsInCart = state.items.reduce((acc, value) => {
+                        return (value.quantity * value.price) + acc
+                    }, 0)
+                    localStorage.setItem("cart", JSON.stringify(state))
                 }
             },
             addToCartByQuantity: (state, action: PayloadAction<{ name: string, by: number }>) => {
                 const itemDetails = action.payload
-                const itemInCart = state.find(item => item.name === itemDetails.name)
+                const itemInCart = state.items.find(item => item.name === itemDetails.name)
                 if (!itemInCart) {
-                    const item = data.find(item => item.name === itemDetails.name)
-                    if (item)
-                        state.push({ ...item, quantity: itemDetails.by })
+                    const product = data.find(item => item.name === itemDetails.name)
+                    if (product) {
+                        const { name, inStock, price } = product;
+                        state.items.push({ name, inStock, price, quantity: itemDetails.by })
+                        state.totalItemsInCart = state.items.reduce((acc, value) => {
+                            return value.quantity + acc
+                        }, 0)
+                        state.totalPriceOfItemsInCart = state.items.reduce((acc, value) => {
+                            return (value.quantity * value.price) + acc
+                        }, 0)
+                        localStorage.setItem("cart", JSON.stringify(state))
+                    }
                 }
                 else {
-                    itemInCart.quantity += itemDetails.by
+                    const product = data.find(item => item.name === itemDetails.name)
+                    const isOver = product!.inStock >= (itemInCart.quantity + itemDetails.by)
+                    if (!isOver) { return }
+                    else {
+                        itemInCart.quantity += itemDetails.by
+                        state.totalItemsInCart = state.items.reduce((acc, value) => {
+                            return value.quantity + acc
+                        }, 0)
+                        state.totalPriceOfItemsInCart = state.items.reduce((acc, value) => {
+                            return (value.quantity * value.price) + acc
+                        }, 0)
+                        localStorage.setItem("cart", JSON.stringify(state))
+                    }
+
                 }
             },
+            increaseInCartByQuantity: (state, action: PayloadAction<{ name: string, by: number }>) => {
+                const itemDetails = action.payload
+                const itemInCart = state.items.find(item => item.name === itemDetails.name)!
+                itemInCart.quantity += itemDetails.by
+                state.totalItemsInCart = state.items.reduce((acc, value) => {
+                    return value.quantity + acc
+                }, 0)
+                state.totalPriceOfItemsInCart = state.items.reduce((acc, value) => {
+                    return (value.quantity * value.price) + acc
+                }, 0)
+                localStorage.setItem("cart", JSON.stringify(state))
+
+            },
             clearCart: (state) => {
-                return []
+                localStorage.removeItem("cart")
+                return { items: [], totalItemsInCart: 0, totalPriceOfItemsInCart: 0 }
             },
             reduceItemInCartQuantity: (state, action: PayloadAction<string>) => {
                 const name = action.payload
-                const itemInCart = state.find(item => item.name === name)
+                const itemInCart = state.items.find(item => item.name === name)
                 if (itemInCart) {
-                    if (itemInCart.quantity === 1) return state.filter(item => item.name !== name)
-                    else itemInCart.quantity -= 1
+                    if (itemInCart.quantity === 1) {
+                        state.items = state.items.filter(item => item.name !== name)
+                        state.totalItemsInCart = state.items.reduce((acc, value) => {
+                            return value.quantity + acc
+                        }, 0)
+                        state.totalPriceOfItemsInCart = state.items.reduce((acc, value) => {
+                            return (value.quantity * value.price) + acc
+                        }, 0)
+                        localStorage.setItem("cart", JSON.stringify(state))
+                    }
+                    else {
+                        itemInCart.quantity -= 1
+                        state.totalItemsInCart = state.items.reduce((acc, value) => {
+                            return value.quantity + acc
+                        }, 0)
+                        state.totalPriceOfItemsInCart = state.items.reduce((acc, value) => {
+                            return (value.quantity * value.price) + acc
+                        }, 0)
+                        localStorage.setItem("cart", JSON.stringify(state))
+                    }
                 }
                 else return
             },
             removeItemFromCart: (state, action: PayloadAction<string>) => {
                 const name = action.payload
-                const itemInCart = state.find(item => item.name === name)
-                if (itemInCart) return state.filter(item => item.name !== name)
+                console.log("ran")
+                const itemInCart = state.items.find(item => item.name === name)
+                console.log(itemInCart?.name)
+                if (itemInCart) {
+                    state.items = state.items.filter(item => item.name !== name)
+                    state.totalItemsInCart = state.items.reduce((acc, value) => {
+                        return value.quantity + acc
+                    }, 0)
+                    state.totalPriceOfItemsInCart = state.items.reduce((acc, value) => {
+                        return (value.quantity * value.price) + acc
+                    }, 0)
+                    localStorage.setItem("cart", JSON.stringify(state))
+                }
             }
         }
     }

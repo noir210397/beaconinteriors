@@ -10,7 +10,7 @@ const Logo = () => {
         alt="beacon"
         width={160}
         height={40}
-        className=""
+        className="object-contain"
       />
     </Link>
   );

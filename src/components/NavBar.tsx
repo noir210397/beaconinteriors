@@ -10,13 +10,21 @@ import React, { useEffect, useState } from "react";
 import Logo from "./Logo";
 import Link from "next/link";
 import tw from "tailwind-styled-components";
+import { useSelector } from "react-redux";
+import { cart } from "@/store/cart";
+import { usePathname } from "next/navigation";
+import CartData from "./cart/CartData";
 type CartProps = {
   $isopen: boolean;
 };
 const LinkWrapper = tw.div` flex gap-10 pt-5 lg:pt-0 lg:flex-row flex-col `;
-const Cart = tw.div<CartProps>`fixed ease-in-out duration-500 cart bg-mygray2  flex justify-center items-center inset-0 top-16 md:start-1/2  lg:start-2/3 ${(
+const Cart = tw.div<{
+  $isopen: boolean;
+  $isCartEmpty: boolean;
+}>`fixed ease-in-out duration-500 cart bg-white overflow-y-auto   inset-0 top-16 md:start-1/2 py-[80px] px-2  lg:start-2/3 ${(
   p
-) => (p.$isopen ? "" : "translate-x-full transition-transform ")} `;
+) => (p.$isopen ? "" : "translate-x-full transition-transform ")} ${(p) =>
+  p.$isCartEmpty ? "flex justify-center items-center" : ""}`;
 const SearchModal = tw.div<CartProps>` fixed search  transition-all inset-0 bg-mygray  flex justify-center items-center ${(
   p
 ) => (p.$isopen ? "" : "hidden")} `;
@@ -47,6 +55,8 @@ const NavBar = () => {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const [cartOpen, setCartOpen] = useState<boolean>(false);
   const [searchOpen, setSearchOpen] = useState<boolean>(false);
+  const { totalItemsInCart, items } = useSelector(cart);
+  const onCartPage = usePathname() === `/cart`;
   useEffect(() => {
     const originalOverflow = document.body.style.overflow;
     if (cartOpen || menuOpen) {
@@ -129,13 +139,14 @@ const NavBar = () => {
           </Link>
         </div>
         <button
+          disabled={onCartPage}
           onClick={openCart}
           className="flex justify-center items-center gap-1 text-lg  "
         >
           <span>
             <FiBriefcase />
           </span>
-          <span>(0)</span>
+          <span>{`(${totalItemsInCart})`}</span>
         </button>
         <button
           onClick={openMenu}
@@ -146,11 +157,14 @@ const NavBar = () => {
           </span>
         </button>
       </div>
-      <Cart $isopen={cartOpen}>
+      <Cart $isopen={cartOpen} $isCartEmpty={totalItemsInCart === 0}>
         <button className="text-2xl absolute top-2 right-4" onClick={openCart}>
           <AiOutlineClose />
         </button>
-        <div className="capitalize font-bold">no cart items</div>
+        {totalItemsInCart === 0 && (
+          <div className="capitalize font-bold">no cart items</div>
+        )}
+        {totalItemsInCart !== 0 && <CartData />}
       </Cart>
       <SearchModal $isopen={searchOpen}>
         <button
