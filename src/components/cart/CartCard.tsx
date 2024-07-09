@@ -12,7 +12,7 @@ const CartCard = ({ name, price, quantity }: CartCardProps) => {
   const imageData = data.find((item) => item.name === name)!.images;
   const imageSrc = Array.isArray(imageData) ? imageData[0] : imageData;
   return (
-    <div className="flex w-full md:w-[95%] mx-auto border-2 border-red-700 mb-4">
+    <div className="flex w-full md:w-[95%] mx-auto gap-2  mb-4">
       <div className="flex-1 flex items-start">
         <CartDeleteButton itemName={name} className="text-primary mt-2" />
         <div>

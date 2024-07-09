@@ -73,7 +73,7 @@ const SingleProduct = ({ params }: Props) => {
               onClick={() => {
                 checkIsQuantity();
               }}
-              className="px-14 py-2 uppercase bg-primary text-white rounded flex-1  min-w-max lg:flex-none "
+              className="px-14 py-2 hover:bg-mydark uppercase bg-primary text-white rounded flex-1  min-w-max lg:flex-none "
             >
               add to cart
             </button>

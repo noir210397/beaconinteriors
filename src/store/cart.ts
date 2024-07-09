@@ -14,9 +14,9 @@ interface Cart {
     totalPriceOfItemsInCart: number
 }
 export function getItem(): false | Cart {
-    if (typeof window === 'undefined') {
-        return false;
-    }
+    // if (typeof window === 'undefined') {
+    //     return false;
+    // }
 
     const cartItem = localStorage.getItem("cart");
     if (cartItem) {
@@ -52,7 +52,7 @@ const cartSlice = createSlice(
                         state.totalPriceOfItemsInCart = state.items.reduce((acc, value) => {
                             return (value.quantity * value.price) + acc
                         }, 0)
-                        if (typeof window !== undefined) localStorage.setItem("cart", JSON.stringify(state))
+                        // if (typeof window !== undefined) localStorage.setItem("cart", JSON.stringify(state))
                         toast(`item added to cart`)
                     }
                     else return
@@ -65,7 +65,8 @@ const cartSlice = createSlice(
                     state.totalPriceOfItemsInCart = state.items.reduce((acc, value) => {
                         return (value.quantity * value.price) + acc
                     }, 0)
-                    if (typeof window !== undefined) localStorage.setItem("cart", JSON.stringify(state))
+                    if (typeof window !== 'undefined') localStorage.setItem("cart", JSON.stringify(state))
+
                 }
             },
             addToCartByQuantity: (state, action: PayloadAction<{ name: string, by: number }>) => {
@@ -82,7 +83,7 @@ const cartSlice = createSlice(
                         state.totalPriceOfItemsInCart = state.items.reduce((acc, value) => {
                             return (value.quantity * value.price) + acc
                         }, 0)
-                        if (typeof window !== undefined) localStorage.setItem("cart", JSON.stringify(state))
+                        if (typeof window !== 'undefined') localStorage.setItem("cart", JSON.stringify(state))
                     }
                 }
                 else {
@@ -97,7 +98,8 @@ const cartSlice = createSlice(
                         state.totalPriceOfItemsInCart = state.items.reduce((acc, value) => {
                             return (value.quantity * value.price) + acc
                         }, 0)
-                        if (typeof window !== undefined) localStorage.setItem("cart", JSON.stringify(state))
+                        if (typeof window !== 'undefined') localStorage.setItem("cart", JSON.stringify(state))
+
                     }
 
                 }
@@ -112,11 +114,13 @@ const cartSlice = createSlice(
                 state.totalPriceOfItemsInCart = state.items.reduce((acc, value) => {
                     return (value.quantity * value.price) + acc
                 }, 0)
-                if (typeof window !== undefined) localStorage.setItem("cart", JSON.stringify(state))
+                if (typeof window !== 'undefined') localStorage.setItem("cart", JSON.stringify(state))
+
 
             },
             clearCart: (state) => {
-                if (typeof window !== undefined) localStorage.removeItem("cart")
+                if (typeof window !== `undefined`) localStorage.removeItem("cart")
+
                 return { items: [], totalItemsInCart: 0, totalPriceOfItemsInCart: 0 }
             },
             reduceItemInCartQuantity: (state, action: PayloadAction<string>) => {
@@ -131,7 +135,8 @@ const cartSlice = createSlice(
                         state.totalPriceOfItemsInCart = state.items.reduce((acc, value) => {
                             return (value.quantity * value.price) + acc
                         }, 0)
-                        if (typeof window !== undefined) localStorage.setItem("cart", JSON.stringify(state))
+                        if (typeof window !== `undefined`) localStorage.setItem("cart", JSON.stringify(state))
+
                     }
                     else {
                         itemInCart.quantity -= 1
@@ -141,7 +146,7 @@ const cartSlice = createSlice(
                         state.totalPriceOfItemsInCart = state.items.reduce((acc, value) => {
                             return (value.quantity * value.price) + acc
                         }, 0)
-                        if (typeof window !== undefined) localStorage.setItem("cart", JSON.stringify(state))
+                        if (typeof window !== `undefined`) localStorage.setItem("cart", JSON.stringify(state))
                     }
                 }
                 else return
@@ -159,7 +164,7 @@ const cartSlice = createSlice(
                     state.totalPriceOfItemsInCart = state.items.reduce((acc, value) => {
                         return (value.quantity * value.price) + acc
                     }, 0)
-                    if (typeof window !== undefined) localStorage.setItem("cart", JSON.stringify(state))
+                    if (typeof window !== `undefined`) localStorage.setItem("cart", JSON.stringify(state))
                 }
             }
         }
