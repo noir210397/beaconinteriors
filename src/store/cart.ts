@@ -13,25 +13,25 @@ interface Cart {
     totalItemsInCart: number,
     totalPriceOfItemsInCart: number
 }
-export function getItem(): false | Cart {
-    // if (typeof window === 'undefined') {
-    //     return false;
-    // }
+// export function getItem(): false | Cart {
+//     // if (typeof window === 'undefined') {
+//     //     return false;
+//     // }
 
-    const cartItem = localStorage.getItem("cart");
-    if (cartItem) {
-        try {
-            return JSON.parse(cartItem);
-        } catch (error) {
-            return false;
-        }
-    } else {
-        return false;
-    }
-}
+//     const cartItem = localStorage.getItem("cart");
+//     if (cartItem) {
+//         try {
+//             return JSON.parse(cartItem);
+//         } catch (error) {
+//             return false;
+//         }
+//     } else {
+//         return false;
+//     }
+// }
 
 
-const initialState: Cart = getItem() || { items: [], totalItemsInCart: 0, totalPriceOfItemsInCart: 0 }
+const initialState: Cart = { items: [], totalItemsInCart: 0, totalPriceOfItemsInCart: 0 }
 
 const cartSlice = createSlice(
     {
