@@ -10,7 +10,7 @@ import SectionHeaders from "@/components/SectionHeaders";
 import Card from "@/components/Card";
 import SetQuantity from "./SetQuantity";
 import { useSelector } from "react-redux";
-import { addToCartByQuantity, cart, getItem } from "@/store/cart";
+import { addToCartByQuantity, cart } from "@/store/cart";
 import { useAppDispatch } from "@/store/hooks";
 const StickyContainer = tw.div` p-2 lg:sticky static flex flex-col gap-4 lg:items-start top-[76px] lg:h-[70vh] lg:ml-[20px] lg:w-[calc(45%-20px)] overflow-y-auto w-full items-center  `;
 const Wrapper = tw.div`flex-1`;
