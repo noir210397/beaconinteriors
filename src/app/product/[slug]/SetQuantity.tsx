@@ -23,7 +23,7 @@ const SetQuantity = forwardRef<HTMLDivElement, Props>(
       }
     }
     return (
-      <div className="flex w-full  md:max-w-[200px] justify-center items-center py-2 ">
+      <div className="flex w-full max-w-xs  md:max-w-[200px] justify-center items-center py-2 ">
         <button
           className="size-9 bg-white font-bold text-primary hover:text-white hover:bg-primary transition-colors  rounded-full flex justify-center items-center"
           onClick={decrease}

@@ -11,9 +11,11 @@ import Logo from "./Logo";
 import Link from "next/link";
 import tw from "tailwind-styled-components";
 import { useSelector } from "react-redux";
-import { cart } from "@/store/cart";
+import { Cart as CartType, cart, setCart } from "@/store/cart";
 import { usePathname } from "next/navigation";
 import CartData from "./cart/CartData";
+import { useAppDispatch } from "@/store/hooks";
+import Loading from "./Loading";
 type CartProps = {
   $isopen: boolean;
 };
@@ -55,8 +57,27 @@ const NavBar = () => {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const [cartOpen, setCartOpen] = useState<boolean>(false);
   const [searchOpen, setSearchOpen] = useState<boolean>(false);
+  const [mounted, setMounted] = useState(false);
   const { totalItemsInCart, items } = useSelector(cart);
   const onCartPage = usePathname() === `/cart`;
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    function getItem(): false | CartType {
+      const cartItem = localStorage.getItem("cart");
+      if (cartItem) {
+        try {
+          return JSON.parse(cartItem);
+        } catch (error) {
+          return false;
+        }
+      } else {
+        return false;
+      }
+    }
+    const cart = getItem();
+    if (cart) dispatch(setCart(cart));
+    setMounted(true);
+  }, []);
   useEffect(() => {
     const originalOverflow = document.body.style.overflow;
     if (cartOpen || menuOpen) {
@@ -80,8 +101,13 @@ const NavBar = () => {
     setMenuOpen(false);
     setCartOpen(!cartOpen);
   };
+  if (!mounted) return <Loading />;
+
   return (
-    <nav className="flex border-b-2   gap-2 px-3 justify-between items-center  h-16 fixed w-full top-0 z-20 bg-secondary ">
+    <nav
+      className={`
+      } flex border-b-2    gap-2 px-3 justify-between items-center h-16 fixed w-full top-0 z-20 bg-secondary`}
+    >
       <Logo />
       <div
         className={` flex-1 ease-in-out duration-500  lg:p-0 lg:static lg:translate-x-0 inset-0  flex lg:items-center lg:justify-center fixed end-0 md:end-1/2 top-16 flex-col gap-2  lg:bg-inherit bg-mygray2  transition-transform px-4 py-8  ${

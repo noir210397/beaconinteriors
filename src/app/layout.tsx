@@ -4,7 +4,7 @@ import "./globals.css";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import StoreProvider from "./StoreProvider";
-import { Bounce, ToastContainer } from "react-toastify";
+import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,21 +25,8 @@ export default function RootLayout({
       >
         <StoreProvider>
           <NavBar />
+          <Toaster richColors />
           <div className="mt-16 flex-1 border-2 border-red-700  relative ">
-            <ToastContainer
-              position="top-right"
-              autoClose={5000}
-              hideProgressBar={false}
-              newestOnTop={false}
-              closeOnClick
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-              theme="light"
-              limit={2}
-              className={`border-2 border-green-800`}
-            />
             {children}
           </div>
           <Footer />

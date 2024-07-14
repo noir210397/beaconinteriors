@@ -7,14 +7,12 @@ type Props = {
 const PageHeaders = ({ text }: Props) => {
   const textArr = text.split(" ");
   return (
-    <div className="flex flex-col bg-green-700 gap-2 w-full min-h-[300px] lg:items-start items-center justify-center py-4 px-2 text-xl md:text-2xl lg:text-3xl">
+    <div className="flex w-[90%] flex-col gap-2 mx-auto min-h-[300px] lg:items-start items-center justify-center py-4 px-2 text-5xl">
       {textArr.map((item, index) => (
         <span
-          className={`${
-            textArr.length === 1 && index === 0
-              ? "font-bold"
-              : "font-semibold lg:ps-6"
-          } uppercase block border-2 border-yellow-700`}
+          className={`${textArr.length === 1 ? "font-bold" : "font-semibold"} ${
+            textArr.length > 1 && index === 0 && "lg:translate-x-1/4"
+          } uppercase block`}
           key={`${index}`}
         >
           {item}

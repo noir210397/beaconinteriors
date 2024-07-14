@@ -30,7 +30,7 @@ const Card = ({ name, price, image, style }: CardType) => {
           <button className="uppercase py-2 px-4  border-primary hover:bg-primary hover:text-white transition-transform border rounded-md">
             view product
           </button>
-          <button className="lg:text-3xl text-xl text-primary">
+          <button className="text-3xl  text-primary">
             <AiOutlineHeart />
           </button>
         </div>

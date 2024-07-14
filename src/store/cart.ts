@@ -1,34 +1,18 @@
 import { Product, data } from "@/products";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { RootState } from "./store";
-import { Bounce, toast } from "react-toastify";
+import { RootState } from "./store"
 export interface ProductWithQuantity {
     name: string,
     inStock: number
     quantity: number
     price: number
 }
-interface Cart {
+export interface Cart {
     items: ProductWithQuantity[],
     totalItemsInCart: number,
     totalPriceOfItemsInCart: number
 }
-// export function getItem(): false | Cart {
-//     // if (typeof window === 'undefined') {
-//     //     return false;
-//     // }
 
-//     const cartItem = localStorage.getItem("cart");
-//     if (cartItem) {
-//         try {
-//             return JSON.parse(cartItem);
-//         } catch (error) {
-//             return false;
-//         }
-//     } else {
-//         return false;
-//     }
-// }
 
 
 const initialState: Cart = { items: [], totalItemsInCart: 0, totalPriceOfItemsInCart: 0 }
@@ -53,7 +37,6 @@ const cartSlice = createSlice(
                             return (value.quantity * value.price) + acc
                         }, 0)
                         // if (typeof window !== undefined) localStorage.setItem("cart", JSON.stringify(state))
-                        toast(`item added to cart`)
                     }
                     else return
                 }
@@ -166,11 +149,15 @@ const cartSlice = createSlice(
                     }, 0)
                     if (typeof window !== `undefined`) localStorage.setItem("cart", JSON.stringify(state))
                 }
+            },
+            setCart: (state, action: PayloadAction<Cart>) => {
+                console.log("done")
+                return state = action.payload
             }
         }
     }
 )
 export const cart = (state: RootState) => state.cart
-export const { addToCart, addToCartByQuantity, clearCart, reduceItemInCartQuantity, removeItemFromCart } = cartSlice.actions
+export const { addToCart, addToCartByQuantity, clearCart, reduceItemInCartQuantity, removeItemFromCart, setCart } = cartSlice.actions
 
 export default cartSlice.reducer

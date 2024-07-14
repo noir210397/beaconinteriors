@@ -1,17 +1,20 @@
 import React, { ComponentProps } from "react";
 interface Props extends ComponentProps<"input"> {
-  label: string;
-  errorMsg: string;
+  errorMsg?: string;
 }
-const TextInput = ({ label, className, errorMsg, ...rest }: Props) => {
+const TextInput = ({ className, errorMsg, id, ...rest }: Props) => {
   return (
     <>
-      <label className="py-3 text-base text-primary">
-        {label}
-        <span className="ps-2 text-red-700">*</span>
-      </label>
-      <input type="text" className={`${className} `} {...rest} />
-      <span className="block">{errorMsg}</span>
+      <div className="mb-2">
+        <input
+          type="text"
+          name={id}
+          id={id}
+          className={`${className} w-full py-2 focus:outline-none border-b bg-transparent border-mydark`}
+          {...rest}
+        />
+        {errorMsg && <span className="block">{errorMsg}</span>}
+      </div>
     </>
   );
 };
