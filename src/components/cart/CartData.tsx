@@ -6,7 +6,7 @@ import Link from "next/link";
 type Props = {
   items: ProductWithQuantity[];
 };
-const CartData = () => {
+const CartData = ({ onClick }: { onClick: () => void }) => {
   const { items, totalPriceOfItemsInCart } = useSelector(cart);
 
   return (
@@ -21,12 +21,14 @@ const CartData = () => {
         </div>
         <div className="py-4">
           <Link
+            onClick={onClick}
             href={`/cart`}
             className="uppercase bg-primary text-base py-2 px-2 md:px-4 mr-2 text-white rounded-md mb-2 hover:bg-mydark transition-colors"
           >
             view cart
           </Link>
           <Link
+            onClick={onClick}
             href={`/checkout`}
             className="uppercase bg-primary text-base py-2 px-2 md:px-4 mr-2 text-white rounded-md hover:bg-mydark transition-colors"
           >

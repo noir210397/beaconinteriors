@@ -5,17 +5,15 @@ import { FiBriefcase } from "react-icons/fi";
 import { AiOutlineHeart } from "react-icons/ai";
 import { BsPerson } from "react-icons/bs";
 import { BiSearch } from "react-icons/bi";
-import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import Logo from "./Logo";
 import Link from "next/link";
 import tw from "tailwind-styled-components";
 import { useSelector } from "react-redux";
-import { Cart as CartType, cart, setCart } from "@/store/cart";
+import { cart } from "@/store/cart";
 import { usePathname } from "next/navigation";
 import CartData from "./cart/CartData";
-import { useAppDispatch } from "@/store/hooks";
-import Loading from "./Loading";
+
 type CartProps = {
   $isopen: boolean;
 };
@@ -23,9 +21,9 @@ const LinkWrapper = tw.div` flex gap-10 pt-5 lg:pt-0 lg:flex-row flex-col `;
 const Cart = tw.div<{
   $isopen: boolean;
   $isCartEmpty: boolean;
-}>`fixed ease-in-out duration-500 cart bg-white overflow-y-auto   inset-0 top-16 md:start-1/2 py-[80px] px-2  lg:start-2/3 ${(
+}>`fixed transition-transform ease-in-out duration-500  cart bg-white    inset-0 top-16 md:start-1/2 py-[80px] px-2  lg:start-2/3 ${(
   p
-) => (p.$isopen ? "" : "translate-x-full transition-transform ")} ${(p) =>
+) => (p.$isopen ? "" : "translate-x-full  ")} ${(p) =>
   p.$isCartEmpty ? "flex justify-center items-center" : ""}`;
 const SearchModal = tw.div<CartProps>` fixed search  transition-all inset-0 bg-mygray  flex justify-center items-center ${(
   p
@@ -57,27 +55,15 @@ const NavBar = () => {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const [cartOpen, setCartOpen] = useState<boolean>(false);
   const [searchOpen, setSearchOpen] = useState<boolean>(false);
-  const [mounted, setMounted] = useState(false);
   const { totalItemsInCart, items } = useSelector(cart);
-  const onCartPage = usePathname() === `/cart`;
-  const dispatch = useAppDispatch();
+  const pathname = usePathname();
+  const onCartPage =
+    pathname === `/cart` || pathname === "/checkout" ? true : false;
   useEffect(() => {
-    function getItem(): false | CartType {
-      const cartItem = localStorage.getItem("cart");
-      if (cartItem) {
-        try {
-          return JSON.parse(cartItem);
-        } catch (error) {
-          return false;
-        }
-      } else {
-        return false;
-      }
-    }
-    const cart = getItem();
-    if (cart) dispatch(setCart(cart));
-    setMounted(true);
-  }, []);
+    setMenuOpen(false);
+    setCartOpen(false);
+  }, [pathname]);
+
   useEffect(() => {
     const originalOverflow = document.body.style.overflow;
     if (cartOpen || menuOpen) {
@@ -101,7 +87,6 @@ const NavBar = () => {
     setMenuOpen(false);
     setCartOpen(!cartOpen);
   };
-  if (!mounted) return <Loading />;
 
   return (
     <nav
@@ -140,6 +125,10 @@ const NavBar = () => {
               key={link.name}
               className="uppercase text-mydark hover:underline decoration-2 decoration-primary font-extrabold lg:font-semibold text-lg lg:text-base"
               href={`${link.path}`}
+              onClick={() => {
+                setCartOpen(false);
+                setMenuOpen(false);
+              }}
             >
               {link.name}
             </Link>
@@ -154,12 +143,20 @@ const NavBar = () => {
           <Link
             href={`/login`}
             className=" font-extrabold text-xl  flex justify-center items-center "
+            onClick={() => {
+              setCartOpen(false);
+              setMenuOpen(false);
+            }}
           >
             <BsPerson />
           </Link>
           <Link
             href={`/saved`}
-            className=" font-extrabold text-xl  flex justify-center items-center  "
+            className=" font-extrabold text-xl  flex justify-center items-center "
+            onClick={() => {
+              setCartOpen(false);
+              setMenuOpen(false);
+            }}
           >
             <AiOutlineHeart />
           </Link>
@@ -190,7 +187,16 @@ const NavBar = () => {
         {totalItemsInCart === 0 && (
           <div className="capitalize font-bold">no cart items</div>
         )}
-        {totalItemsInCart !== 0 && <CartData />}
+        <div className="absolute inset-x-0 bottom-0 top-[50px] overflow-y-auto ">
+          {totalItemsInCart !== 0 && (
+            <CartData
+              onClick={() => {
+                setCartOpen(false);
+                setMenuOpen(false);
+              }}
+            />
+          )}
+        </div>
       </Cart>
       <SearchModal $isopen={searchOpen}>
         <button

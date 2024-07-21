@@ -46,14 +46,6 @@ const SelectInput = () => {
   }, [open]);
   return (
     <div className="relative" ref={elementRef}>
-      <input
-        type="radio"
-        checked
-        value={value}
-        id="state/county"
-        name="state/county"
-        className="absolute z-[-30] invisible"
-      />
       <div
         className={`absolute z-[1000] p-2 inset-x-0 bottom-[50px] overflow-hidden bg-white transition-transform duration-75 ${
           open ? "visible translate-y-0 " : "translate-y-[10px] invisible"
