@@ -1,9 +1,15 @@
 "use client";
+import { GiCancel } from "react-icons/gi";
 import { AiTwotoneCalendar } from "react-icons/ai";
 import PageHeaders from "@/components/PageHeaders";
 import { cart } from "@/store/cart";
 import { useSelector } from "react-redux";
 import Link from "next/link";
+import { data } from "@/products";
+import Image from "next/image";
+import tw from "tailwind-styled-components";
+import CartTable from "@/components/CartTable";
+const Header = tw.p`uppercase text-3xl py-4 max-[650px]:text-center`;
 
 const Page = () => {
   const { items: cartItems, totalPriceOfItemsInCart } = useSelector(cart);
@@ -25,6 +31,148 @@ const Page = () => {
             return to shop
           </Link>
         </div>
+      )}
+      {cartItems.length > 0 && (
+        <table className="w-[90%] mx-auto">
+          <thead>
+            <tr className="max-[650px]:hidden">
+              <th className="text-start uppercase text-lg font-normal px-2">
+                product
+              </th>
+              <th className="text-start uppercase text-lg font-normal px-2"></th>
+              <th className="text-center uppercase text-lg font-normal px-2">
+                price
+              </th>
+              <th className="text-center uppercase text-lg font-normal px-2">
+                quantity
+              </th>
+              <th className="text-center uppercase text-lg font-normal px-2">
+                subtotal
+              </th>
+              <th className="text-start uppercase text-lg font-normal px-2"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {cartItems.map((cartItem) => {
+              const imageData = data.find(
+                (item) => item.name === cartItem.name
+              )!.images;
+              const imageSrc = Array.isArray(imageData)
+                ? imageData[0]
+                : imageData;
+              return (
+                <tr
+                  key={cartItem.name}
+                  className=" min-[650px]:border-b min-[650px]:border-b-black"
+                >
+                  <td className="max-[650px]:hidden py-10">
+                    <Image
+                      src={imageSrc}
+                      alt={cartItem.name}
+                      className="w-32 aspect-square object-contain"
+                    />
+                  </td>
+                  <td className="max-[650px]:hidden uppercase text-lg px-2">
+                    {cartItem.name}
+                  </td>
+                  <td className="max-[650px]:hidden text-center px-2">
+                    $ {cartItem.price}
+                  </td>
+                  <td className="max-[650px]:hidden text-center px-2">
+                    {cartItem.quantity}
+                  </td>
+                  <td className="max-[650px]:hidden text-center px-2">
+                    $ {cartItem.price * cartItem.quantity}
+                  </td>
+                  <td className="max-[650px]:hidden text-center px-2">
+                    <button className="text-2xl font-extrabold">
+                      <GiCancel />
+                    </button>
+                  </td>
+                  <td className="min-[650px]:hidden">
+                    <table className="w-full">
+                      <tbody>
+                        <tr className=" border-b border-b-black">
+                          <td className="uppercase font-extrabold pr-3 py-4">
+                            product:
+                          </td>
+                          <td className="text-end uppercase">
+                            {cartItem.name}
+                          </td>
+                        </tr>
+                        <tr className=" border-b border-b-black">
+                          <td className="uppercase font-extrabold pr-3 py-4">
+                            price:
+                          </td>
+                          <td className="text-end font-semibold">
+                            {cartItem.price}
+                          </td>
+                        </tr>
+                        <tr className=" border-b border-b-black">
+                          <td className="uppercase font-extrabold pr-3 py-4">
+                            quantity:
+                          </td>
+                          <td className="text-end font-semibold">
+                            {cartItem.quantity}
+                          </td>
+                        </tr>
+                        <tr className=" border-b border-b-black">
+                          <td className="uppercase font-extrabold pr-3 py-4">
+                            subtotal:
+                          </td>
+                          <td className="text-end font-semibold">
+                            {cartItem.price * cartItem.quantity}
+                          </td>
+                        </tr>
+                        <tr className=" border-b border-b-black">
+                          <td className="uppercase font-extrabold pr-3 py-4">
+                            <button className="text-2xl">
+                              <GiCancel />
+                            </button>
+                          </td>
+                          <td></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      )}
+      {cartItems.length > 0 && (
+        <>
+          <div className="w-[90%] mx-auto ">
+            <Header>got a coupon?</Header>
+            <div className="flex gap-2 max-[650px]:flex-col min-[650px]:flex-row p-2">
+              <input
+                type="text"
+                className="py-2 w-full min-[650px]:max-w-[300px] px-2 focus:outline-none focus:border-primary border-b-2 border-mydark"
+                placeholder="Coupon Code"
+              />
+              <button className="uppercase bg-primary text-white px-4 py-2 rounded-lg max-[650px]:w-full min-[650px]:min-w-fit">
+                apply coupon
+              </button>
+            </div>
+            <div className=" max-w-sm lg:float-end float-none mx-auto lg:mx-0">
+              <Header>cart totals</Header>
+              <CartTable>
+                <tbody>
+                  <CartTable.Total />
+                  <CartTable.Shipping />
+                </tbody>
+              </CartTable>
+              <div className="flex p-2 justify-between w-full uppercase">
+                <span>total</span>
+                <span>$ {totalPriceOfItemsInCart}</span>
+              </div>
+              <button className="px-2 py-2 block w-[80%] mx-auto lg:mx-0 float-none lg:float-end uppercase text-white rounded-lg bg-primary my-3 min-w-fit">
+                proceed to checkout
+              </button>
+            </div>
+          </div>
+        </>
       )}
     </div>
   );
