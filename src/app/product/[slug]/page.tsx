@@ -16,6 +16,7 @@ import AddToCartButton from "@/components/AddToCartButton";
 import { toast } from "sonner";
 import useMounted from "@/hooks/useMounted";
 import Link from "next/link";
+import SaveButton from "@/components/SaveButton";
 const StickyContainer = tw.div` p-2 lg:sticky static flex flex-col gap-4 lg:items-start top-[76px] lg:h-[70vh] lg:ml-[20px] lg:w-[calc(45%-20px)] overflow-y-auto w-full items-center  `;
 const Wrapper = tw.div`flex-1`;
 const CardsContainer = tw.div`mt-[10vh]`;
@@ -106,9 +107,8 @@ const SingleProduct = ({ params }: Props) => {
             >
               add to cart
             </AddToCartButton>
-            <button className="px-3 text-3xl text-primary">
-              <AiOutlineHeart />
-            </button>
+
+            <SaveButton itemName={item.name} checkSaved />
           </div>
           {item.shortDescription && (
             <Accordion header={`description`} text={item.description} />
