@@ -1,6 +1,7 @@
 import { Product, data } from "@/products";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "./store"
+import { toast } from "sonner";
 export interface ProductWithQuantity {
     name: string,
     inStock: number
@@ -36,7 +37,7 @@ const cartSlice = createSlice(
                         state.totalPriceOfItemsInCart = state.items.reduce((acc, value) => {
                             return (value.quantity * value.price) + acc
                         }, 0)
-                        // if (typeof window !== undefined) localStorage.setItem("cart", JSON.stringify(state))
+                        if (typeof window !== undefined) localStorage.setItem("cart", JSON.stringify(state))
                     }
                     else return
                 }
@@ -66,13 +67,16 @@ const cartSlice = createSlice(
                         state.totalPriceOfItemsInCart = state.items.reduce((acc, value) => {
                             return (value.quantity * value.price) + acc
                         }, 0)
+                        toast.success(`${itemDetails.by === 1 ? `${itemDetails.name} added to cart` : `${itemDetails.by} of ${itemDetails.name} added to cart`}`)
                         if (typeof window !== 'undefined') localStorage.setItem("cart", JSON.stringify(state))
                     }
                 }
                 else {
                     const product = data.find(item => item.name === itemDetails.name)
                     const isOver = product!.inStock >= (itemInCart.quantity + itemDetails.by)
-                    if (!isOver) { return }
+                    if (!isOver) {
+                        return state
+                    }
                     else {
                         itemInCart.quantity += itemDetails.by
                         state.totalItemsInCart = state.items.reduce((acc, value) => {
@@ -81,6 +85,7 @@ const cartSlice = createSlice(
                         state.totalPriceOfItemsInCart = state.items.reduce((acc, value) => {
                             return (value.quantity * value.price) + acc
                         }, 0)
+                        toast.success(`${itemDetails.by}of ${itemDetails.name} added to cart`)
                         if (typeof window !== 'undefined') localStorage.setItem("cart", JSON.stringify(state))
 
                     }
@@ -88,16 +93,25 @@ const cartSlice = createSlice(
                 }
             },
             increaseInCartByQuantity: (state, action: PayloadAction<{ name: string, by: number }>) => {
+
                 const itemDetails = action.payload
                 const itemInCart = state.items.find(item => item.name === itemDetails.name)!
-                itemInCart.quantity += itemDetails.by
-                state.totalItemsInCart = state.items.reduce((acc, value) => {
-                    return value.quantity + acc
-                }, 0)
-                state.totalPriceOfItemsInCart = state.items.reduce((acc, value) => {
-                    return (value.quantity * value.price) + acc
-                }, 0)
-                if (typeof window !== 'undefined') localStorage.setItem("cart", JSON.stringify(state))
+                const isOver = itemInCart!.inStock >= (itemInCart.quantity + itemDetails.by)
+                if (isOver) {
+                    toast.error(`unable to add ${itemDetails.by} of ${itemDetails.name} as we only have ${itemInCart.inStock} in stock`)
+                    return state
+                }
+                else {
+                    itemInCart.quantity += itemDetails.by
+                    state.totalItemsInCart = state.items.reduce((acc, value) => {
+                        return value.quantity + acc
+                    }, 0)
+                    state.totalPriceOfItemsInCart = state.items.reduce((acc, value) => {
+                        return (value.quantity * value.price) + acc
+                    }, 0)
+                    toast.success(`${itemDetails.by} of ${itemDetails.name} added to cart`)
+                    if (typeof window !== 'undefined') localStorage.setItem("cart", JSON.stringify(state))
+                }
 
 
             },
@@ -136,9 +150,7 @@ const cartSlice = createSlice(
             },
             removeItemFromCart: (state, action: PayloadAction<string>) => {
                 const name = action.payload
-                console.log("ran")
                 const itemInCart = state.items.find(item => item.name === name)
-                console.log(itemInCart?.name)
                 if (itemInCart) {
                     state.items = state.items.filter(item => item.name !== name)
                     state.totalItemsInCart = state.items.reduce((acc, value) => {
@@ -147,11 +159,11 @@ const cartSlice = createSlice(
                     state.totalPriceOfItemsInCart = state.items.reduce((acc, value) => {
                         return (value.quantity * value.price) + acc
                     }, 0)
+                    toast.error(`${name} removed from cart`)
                     if (typeof window !== `undefined`) localStorage.setItem("cart", JSON.stringify(state))
                 }
             },
             setCart: (state, action: PayloadAction<Cart>) => {
-                console.log("done")
                 return state = action.payload
             }
         }

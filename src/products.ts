@@ -338,7 +338,6 @@ export function randNum(n: number, numArr?: number[]) {
 }
 // randNum(8, numArr)
 export function getData(arr: number[]) {
-    console.log("running");
 
     const neededData = arr.map(num => ({ ...data[num], id: uuid() })) satisfies Product[]
     return neededData

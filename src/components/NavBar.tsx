@@ -5,7 +5,7 @@ import { FiBriefcase } from "react-icons/fi";
 import { AiOutlineHeart } from "react-icons/ai";
 import { BsPerson } from "react-icons/bs";
 import { BiSearch } from "react-icons/bi";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Logo from "./Logo";
 import Link from "next/link";
 import tw from "tailwind-styled-components";
@@ -56,6 +56,8 @@ const NavBar = () => {
   const [cartOpen, setCartOpen] = useState<boolean>(false);
   const [searchOpen, setSearchOpen] = useState<boolean>(false);
   const { totalItemsInCart, items } = useSelector(cart);
+  const [height, setHeight] = useState(false);
+  const cartRef = useRef<HTMLDivElement | null>(null);
   const pathname = usePathname();
   const onCartPage =
     pathname === `/cart` || pathname === "/checkout" ? true : false;
@@ -66,6 +68,7 @@ const NavBar = () => {
 
   useEffect(() => {
     const originalOverflow = document.body.style.overflow;
+    cartRef.current?.scrollTo(0, 0);
     if (cartOpen || menuOpen) {
       document.body.style.overflow = "hidden";
     }
@@ -75,6 +78,19 @@ const NavBar = () => {
       document.body.style.overflow = originalOverflow;
     };
   }, [cartOpen, menuOpen]);
+  useEffect(() => {
+    const handleScroll = () => {
+      if (document.documentElement.scrollTop > 64) {
+        setHeight(true);
+      } else setHeight(false);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   const openMenu = () => {
     setCartOpen(false);
@@ -91,7 +107,9 @@ const NavBar = () => {
   return (
     <nav
       className={`
-      } flex border-b-2    gap-2 px-3 justify-between items-center h-16 fixed w-full top-0 z-20 bg-secondary`}
+      } flex  transition-transform    gap-2 px-3 justify-between items-center h-16 fixed w-full top-0 z-20 ${
+        height ? "bg-white" : "bg-secondary"
+      }`}
     >
       <Logo />
       <div
@@ -187,7 +205,10 @@ const NavBar = () => {
         {totalItemsInCart === 0 && (
           <div className="capitalize font-bold">no cart items</div>
         )}
-        <div className="absolute inset-x-0 bottom-0 top-[50px] overflow-y-auto ">
+        <div
+          className="absolute inset-x-0 bottom-0 top-[50px] overflow-y-auto "
+          ref={cartRef}
+        >
           {totalItemsInCart !== 0 && (
             <CartData
               onClick={() => {

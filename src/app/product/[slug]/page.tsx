@@ -56,12 +56,13 @@ const SingleProduct = ({ params }: Props) => {
   function checkIsQuantity() {
     const num = parseInt(ref.current!.textContent!.trim() as string);
     const isOkay = quantityInCart + num > item?.inStock!;
-    if (!isOkay) dispatch(addToCartByQuantity({ by: num, name: item!.name }));
-    else {
+    if (!isOkay) {
+      dispatch(addToCartByQuantity({ by: num, name: item!.name }));
+      setMessage(null);
+    } else {
       setMessage(
         `we currently have ${item?.inStock} of this item in stock and you have ${quantityInCart} in cart, so you can't add  ${num} more`
       );
-      // document.body.scrollTo(0, 64);
       document.documentElement.scrollTo(0, 0);
       toast.error("unable to add item to cart as there is not enough in stock");
     }
@@ -100,11 +101,7 @@ const SingleProduct = ({ params }: Props) => {
           <SetQuantity maxnumber={item.inStock} ref={ref} />
           <div className="flex gap-2 justify-center lg:justify-normal items-center w-full flex-wrap  ">
             <AddToCartButton
-              onClick={() => {
-                checkIsQuantity();
-              }}
-              setMessage={setMessage}
-              itemId={item.name.toLowerCase()}
+              onClick={checkIsQuantity}
               className="px-14 py-2 hover:bg-mydark uppercase bg-primary text-white rounded flex-1  min-w-max lg:flex-none "
             >
               add to cart

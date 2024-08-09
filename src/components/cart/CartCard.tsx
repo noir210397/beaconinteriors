@@ -1,6 +1,7 @@
 import Image, { StaticImageData } from "next/image";
-import CartDeleteButton from "./CartDeleteButton";
 import { data } from "@/products";
+import RemoveFromCartButton from "../RemoveFromCartButton";
+import { ImCancelCircle } from "react-icons/im";
 interface CartCardProps {
   //   image: StaticImageData | StaticImageData[];
   name: string;
@@ -14,7 +15,12 @@ const CartCard = ({ name, price, quantity }: CartCardProps) => {
   return (
     <div className="flex w-full md:w-[95%] mx-auto gap-2  mb-4">
       <div className="flex-1 flex items-start">
-        <CartDeleteButton itemName={name} className="text-primary mt-2" />
+        <RemoveFromCartButton
+          itemName={name}
+          className="text-primary mt-2 text-xl px-2"
+        >
+          <ImCancelCircle />
+        </RemoveFromCartButton>
         <div>
           <div className="text-lg font-bold">{name}</div>
           <div className="flex-1 flex items-center">

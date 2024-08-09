@@ -3,6 +3,7 @@
 import Loading from "@/components/Loading";
 import { setCart, Cart as CartType } from "@/store/cart";
 import { useAppDispatch } from "@/store/hooks";
+import { Saved, setSaved } from "@/store/saved";
 import { store } from "@/store/store";
 import { useEffect, useState } from "react";
 import { Provider } from "react-redux";
@@ -11,8 +12,9 @@ const MyApp = ({ children }: { children: React.ReactNode }) => {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    function getItem(): false | CartType {
+    function getCart(): false | CartType {
       const cartItem = localStorage.getItem("cart");
+
       if (cartItem) {
         try {
           return JSON.parse(cartItem);
@@ -23,8 +25,23 @@ const MyApp = ({ children }: { children: React.ReactNode }) => {
         return false;
       }
     }
-    const cart = getItem();
+    function getSaved(): false | Saved {
+      const savedItem = localStorage.getItem("saved");
+      if (savedItem) {
+        try {
+          return JSON.parse(savedItem);
+        } catch (error) {
+          return false;
+        }
+      } else {
+        return false;
+      }
+    }
+    const cart = getCart();
+    const saved = getSaved();
     if (cart) dispatch(setCart(cart));
+    if (saved) dispatch(setSaved(saved));
+
     setMounted(true);
   }, []);
   if (!mounted) return <Loading />;

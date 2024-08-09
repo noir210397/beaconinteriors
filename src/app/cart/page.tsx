@@ -1,14 +1,16 @@
 "use client";
-import { GiCancel } from "react-icons/gi";
+// import { GiCancel } from "react-icons/gi";
 import { AiTwotoneCalendar } from "react-icons/ai";
 import PageHeaders from "@/components/PageHeaders";
 import { cart } from "@/store/cart";
 import { useSelector } from "react-redux";
 import Link from "next/link";
 import { data } from "@/products";
-import Image from "next/image";
+// import Image from "next/image";
 import tw from "tailwind-styled-components";
 import CartTable from "@/components/CartTable";
+// import RemoveFromCartButton from "@/components/RemoveFromCartButton";
+import CartPageCard from "@/components/CartPageCard";
 const Header = tw.p`uppercase text-3xl py-4 max-[650px]:text-center`;
 
 const Page = () => {
@@ -53,91 +55,9 @@ const Page = () => {
             </tr>
           </thead>
           <tbody>
-            {cartItems.map((cartItem) => {
-              const imageData = data.find(
-                (item) => item.name === cartItem.name
-              )!.images;
-              const imageSrc = Array.isArray(imageData)
-                ? imageData[0]
-                : imageData;
-              return (
-                <tr
-                  key={cartItem.name}
-                  className=" min-[650px]:border-b min-[650px]:border-b-black"
-                >
-                  <td className="max-[650px]:hidden py-10">
-                    <Image
-                      src={imageSrc}
-                      alt={cartItem.name}
-                      className="w-32 aspect-square object-contain"
-                    />
-                  </td>
-                  <td className="max-[650px]:hidden uppercase text-lg px-2">
-                    {cartItem.name}
-                  </td>
-                  <td className="max-[650px]:hidden text-center px-2">
-                    $ {cartItem.price}
-                  </td>
-                  <td className="max-[650px]:hidden text-center px-2">
-                    {cartItem.quantity}
-                  </td>
-                  <td className="max-[650px]:hidden text-center px-2">
-                    $ {cartItem.price * cartItem.quantity}
-                  </td>
-                  <td className="max-[650px]:hidden text-center px-2">
-                    <button className="text-2xl font-extrabold">
-                      <GiCancel />
-                    </button>
-                  </td>
-                  <td className="min-[650px]:hidden">
-                    <table className="w-full">
-                      <tbody>
-                        <tr className=" border-b border-b-black">
-                          <td className="uppercase font-extrabold pr-3 py-4">
-                            product:
-                          </td>
-                          <td className="text-end uppercase">
-                            {cartItem.name}
-                          </td>
-                        </tr>
-                        <tr className=" border-b border-b-black">
-                          <td className="uppercase font-extrabold pr-3 py-4">
-                            price:
-                          </td>
-                          <td className="text-end font-semibold">
-                            {cartItem.price}
-                          </td>
-                        </tr>
-                        <tr className=" border-b border-b-black">
-                          <td className="uppercase font-extrabold pr-3 py-4">
-                            quantity:
-                          </td>
-                          <td className="text-end font-semibold">
-                            {cartItem.quantity}
-                          </td>
-                        </tr>
-                        <tr className=" border-b border-b-black">
-                          <td className="uppercase font-extrabold pr-3 py-4">
-                            subtotal:
-                          </td>
-                          <td className="text-end font-semibold">
-                            {cartItem.price * cartItem.quantity}
-                          </td>
-                        </tr>
-                        <tr className=" border-b border-b-black">
-                          <td className="uppercase font-extrabold pr-3 py-4">
-                            <button className="text-2xl">
-                              <GiCancel />
-                            </button>
-                          </td>
-                          <td></td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </td>
-                </tr>
-              );
-            })}
+            {cartItems.map((cartItem) => (
+              <CartPageCard {...cartItem} key={cartItem.name} />
+            ))}
           </tbody>
         </table>
       )}
@@ -167,9 +87,12 @@ const Page = () => {
                 <span>total</span>
                 <span>$ {totalPriceOfItemsInCart}</span>
               </div>
-              <button className="px-2 py-2 block w-[80%] mx-auto lg:mx-0 float-none lg:float-end uppercase text-white rounded-lg bg-primary my-3 min-w-fit">
+              <Link
+                href={`/checkout`}
+                className="px-2 py-2 block w-[80%] text-center mx-auto lg:mx-0 float-none lg:float-end uppercase text-white rounded-lg bg-primary my-3 min-w-fit"
+              >
                 proceed to checkout
-              </button>
+              </Link>
             </div>
           </div>
         </>

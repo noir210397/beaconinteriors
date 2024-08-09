@@ -1,30 +1,13 @@
 import { useContext, createContext, useState } from "react";
-type Toasts = {
-  name: string;
-};
-type ToastContextType = {
-  updateToasts: (val: Toasts) => void;
-  toasts: Toasts[];
-};
-const ToastContext = createContext<ToastContextType>({
-  updateToasts: () => {},
-  toasts: [],
-});
+import { toast } from "sonner";
+
+type ToastContextType = {};
+const ToastContext = createContext<ToastContextType>({});
 function useToast() {
   return useContext(ToastContext)!;
 }
-
 const ToastProvider = ({ children }: { children: React.ReactNode }) => {
-  const [toasts, setToasts] = useState<Toasts[]>([]);
-  function updateToasts(val: Toasts) {
-    setToasts((toast) => [...toast, val]);
-  }
-
-  return (
-    <ToastContext.Provider value={{ updateToasts, toasts }}>
-      {children}
-    </ToastContext.Provider>
-  );
+  return <ToastContext.Provider value={{}}>{children}</ToastContext.Provider>;
 };
 
 export default ToastProvider;
