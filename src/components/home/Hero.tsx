@@ -1,93 +1,122 @@
 "use client";
+import { BsArrowRight } from "react-icons/bs";
 import { AiOutlineArrowRight } from "react-icons/ai";
 import Image from "next/image";
-import React, { MouseEvent, useRef } from "react";
+import React, { MouseEvent, useEffect, useRef, useState } from "react";
 import image from "../../../public/images/hero.jpg";
-import { color, motion, Variants } from "framer-motion";
-// import tw from "tailwind-styled-components";
-// const container=tw(motion.div)``
+import { color, delay, motion, useAnimate, Variants } from "framer-motion";
+const MotionImage = motion(Image);
 
 const Hero = () => {
+  const [scope, animate] = useAnimate();
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const sectionRef = useRef<HTMLDivElement | null>(null);
-  const onEnter = (e: MouseEvent) => {
-    console.log("event", e.clientX, e.clientY);
-    // buttonRef?.current!.classList.toggle("absolute");
-    const left = e.clientX;
-    const top = e.clientY - 80;
-    buttonRef!.current!.style.position = `absolute`;
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const onEnter = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (window.matchMedia("(min-width:1024px)").matches) {
+      const left = e.pageX - 120 / 2;
+      const top = e.pageY - (64 + 120 / 2);
+      buttonRef!.current!.style.position = `absolute`;
+      buttonRef!.current!.style.left = `${left}px`;
+      buttonRef!.current!.style.top = `${top}px`;
+    } else {
+      buttonRef!.current!.style.position = `static`;
+    }
+  };
+  const onLeave = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (window.matchMedia("(min-width:1024px)").matches) {
+    } else buttonRef!.current!.style.position = `static`;
+  };
+  const onMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (window.matchMedia("(min-width:1024px)").matches) {
+      const left = e.pageX - 120 / 2;
+      const top = e.pageY - (64 + 120 / 2);
+      buttonRef!.current!.style.left = `${left}px`;
+      buttonRef!.current!.style.top = `${top}px`;
+    } else {
+      buttonRef!.current!.style.position = `static`;
+    }
+  };
+  useEffect(() => {
+    animate(
+      ".front",
+      { y: 0, filter: "blur(0px)", opacity: 1 },
+      { duration: 1 }
+    );
+    animate(".myblur", { y: "-100%" }, { duration: 0.4, delay: 1.2 });
+    animate(".front", { color: "white" }, { delay: 1.3 });
+    // animate(".front span:nth-child(2)", { color: "white" }, { delay: 1.3 });
+    // animate(".front span:nth-child(3)", { color: "white" }, { delay: 1.3 });
+  }, []);
+  useEffect(() => {
+    if (isPlaying) {
+      animate(".front", { y: "100%", display: "none" }, { duration: 0.5 }).then(
+        () => {}
+        // animate(".myblur", { display: "none" })
+      );
+      animate(".play", { display: "none" }, { duration: 0 });
+      animate(".image", { display: "none" }, { duration: 0.4 });
+      animate("video", { opacity: 1 }).then(() => {
+        if (videoRef.current) {
+          videoRef.current.play();
+          console.log("playing");
+        }
+      });
+    } else {
+    }
+  }, [isPlaying]);
 
-    buttonRef!.current!.style.left = `${left}px`;
-
-    buttonRef!.current!.style.top = `${top}px`;
-  };
-  const onLeave = (e: MouseEvent) => {
-    buttonRef!.current!.style.position = "static";
-  };
-  const onMove = (e: MouseEvent) => {
-    const left = e.clientX;
-    const top = e.clientY - 80;
-    buttonRef!.current!.style.left = `${left}px`;
-    buttonRef!.current!.style.top = `${top}px`;
-  };
-  const containerVariant: Variants = {
-    initial: { y: "100%", opacity: 0 },
-    animate: { y: 0, opacity: 1 },
-  };
   return (
     <div
-      className="h-[calc(100vh-80px)]   bg-center bg-cover flex items-center relative px-5 overflow-hidden "
-      style={{ backgroundImage: `url("/images/hero.jpg")` }}
-      onMouseEnter={onEnter}
-      onMouseLeave={onLeave}
-      onMouseMove={onMove}
-      ref={sectionRef}
+      className="h-[calc(100vh-80px)]  lg:cursor-none cursor-pointer lg:justify-between  bg-center bg-cover flex lg:flex-row flex-col gap-3 justify-center items-center relative px-5 overflow-hidden "
+      onPointerEnter={onEnter}
+      onPointerLeave={onLeave}
+      onPointerMove={onMove}
+      ref={scope}
     >
-      <motion.div
-        variants={containerVariant}
-        initial={"initial"}
-        animate={"animate"}
-        transition={{
-          staggerChildren: 0.3,
-          duration: 1,
-          ease: "easeIn",
-        }}
-        className="flex w-max border-2 border-red-600 flex-col gap-10 p-4 z-[1] "
+      <video
+        loop
+        muted
+        ref={videoRef}
+        className="absolute inset-0 min-w-full border-2 border-green-700 h-full object-cover opacity-0"
       >
-        <motion.span
-          animate={{ color: "white" }}
-          transition={{ delay: 1 }}
-          className="block w-full text-[50px] uppercase font-extrabold  leading-none text-black  "
-        >
+        <source src="/video/video_bg.mp4" type="video/mp4" />
+      </video>
+      <MotionImage
+        src={image}
+        alt="hero"
+        className="absolute image h-full inset-0 object-cover lg:cursor-none"
+      />
+      <motion.div className="absolute inset-0  bg-secondary lg:cursor-none z-[2] myblur"></motion.div>
+      <motion.div
+        initial={{ y: "100%", opacity: 0 }}
+        className="flex w-max relative flex-col gap-10 p-4 lg:cursor-none z-[6] front  blur-sm items-center   "
+      >
+        <motion.span className="block  text-[50px] lg:text-[70px] uppercase font-extrabold  leading-none  ">
           passion
         </motion.span>
-        <motion.span
-          animate={{ color: "white" }}
-          transition={{}}
-          className="block w-full text-[50px] uppercase font-extrabold  leading-none text-black  "
-        >
-          for
-        </motion.span>
-        <motion.span
-          animate={{ color: "white" }}
-          transition={{ delay: 2 }}
-          className="block w-full text-[50px] uppercase font-extrabold  leading-none text-black  "
-        >
-          quality
-        </motion.span>
+        <p className="lg:flex-col flex-row gap-4 flex lg:gap-10">
+          <motion.span className="block lg:w-full text-[50px] lg:text-[70px] lg:text-end  uppercase font-extrabold  leading-none  ">
+            for
+          </motion.span>
+          <motion.span className="block lg:w-full text-[50px] lg:text-[70px] uppercase font-extrabold  leading-none  ">
+            quality
+          </motion.span>
+        </p>
       </motion.div>
       <button
         ref={buttonRef}
-        className=" w-24 cursor-none aspect-square rounded-full justify-center items-center flex border border-white text-white text-[30px] lead-none"
+        onClick={(e) => {
+          e.stopPropagation();
+          setIsPlaying(true);
+          console.log("here");
+        }}
+        className=" lg:w-[120px] md:w-[96px] w-[70px] z-[1] play  lg:cursor-none  relative  aspect-square rounded-full justify-center items-center flex border-2 border-white text-white lg:text-[60px] text-[40px] font-normal lead-none"
       >
-        <AiOutlineArrowRight />
+        {/* <AiOutlineArrowRight /> */}
+        <BsArrowRight />
       </button>
-      {/* <motion.div
-        animate={{ bottom: "100vh" }}
-        initial={{ left: 0, right: 0, bottom: 0, top: 0 }}
-        transition={{ duration: 0.6, ease: "linear", delay: 2 }}
-        className="absolute  bg-secondary z-[0]"
-      ></motion.div> */}
     </div>
   );
 };

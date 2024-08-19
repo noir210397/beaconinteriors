@@ -44,7 +44,11 @@ const MyApp = ({ children }: { children: React.ReactNode }) => {
 
     setMounted(true);
   }, []);
-  if (!mounted) return <Loading />;
+
+  if (!mounted)
+    return (
+      <div className="bg-secondary fixed z-[5] inset-x-0 h-[calc(100vh-64px)] top-16 border-2 border-yellow-600"></div>
+    );
   return <>{children}</>;
 };
 
