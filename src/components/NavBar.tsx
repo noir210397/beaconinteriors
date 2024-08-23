@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 import { cart } from "@/store/cart";
 import { usePathname } from "next/navigation";
 import CartData from "./cart/CartData";
+import SearchModal from "./SearchModal";
 
 type CartProps = {
   $isopen: boolean;
@@ -25,9 +26,7 @@ const Cart = tw.div<{
   p
 ) => (p.$isopen ? "" : "translate-x-full  ")} ${(p) =>
   p.$isCartEmpty ? "flex justify-center items-center" : ""}`;
-const SearchModal = tw.div<CartProps>` fixed search  transition-all inset-0 bg-mygray  flex justify-center items-center ${(
-  p
-) => (p.$isopen ? "" : "hidden")} `;
+
 const links = [
   {
     name: "showroom",
@@ -219,24 +218,7 @@ const NavBar = () => {
           )}
         </div>
       </Cart>
-      <SearchModal $isopen={searchOpen}>
-        <button
-          onClick={openSearch}
-          className="text-2xl absolute top-2 right-4"
-        >
-          <AiOutlineClose />
-        </button>
-        <div className="relative flex flex-wrap gap-2 justify-center items-center">
-          <input
-            type="text"
-            placeholder="Search Products..."
-            className="text-2xl outline-none p-2 border-b border-black bg-mygray text-black placeholder:text-black"
-          />
-          <button className="uppercase border border-mydark text-mydark p-3 text-lg rounded ">
-            search
-          </button>
-        </div>
-      </SearchModal>
+      {searchOpen && <SearchModal openSearch={openSearch} />}
     </nav>
   );
 };

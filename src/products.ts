@@ -318,32 +318,44 @@ export const data: Product[] = [
         "images": [image61, image612]
     },
 ]
-export function randNum(n: number, numArr?: number[]) {
-    const arr = numArr || []
+// export function randNum(n: number, numArr?: number[]) {
+//     const arr = numArr || []
 
-    if (arr.length >= n) {
-        return arr;
-    } else {
+//     if (arr.length >= n) {
+//         return arr;
+//     } else {
+//         const num = Math.floor(Math.random() * 25);
+//         if (
+//             !arr.find((item) => {
+//                 return item === num;
+//             })
+//         ) {
+//             arr.push(num);
+//         }
+//         return randNum(n, arr);
+
+//     }
+// }
+export function randNum(n: number): number[] {
+    const arr: number[] = [];
+
+    while (arr.length < n) {
         const num = Math.floor(Math.random() * 25);
-        if (
-            !arr.find((item) => {
-                return item === num;
-            })
-        ) {
+        if (!arr.includes(num)) {
             arr.push(num);
         }
-        return randNum(n, arr);
-
     }
+
+    return arr;
 }
-// randNum(8, numArr)
+
+
 export function getData(arr: number[]) {
 
     const neededData = arr.map(num => ({ ...data[num], id: uuid() })) satisfies Product[]
     return neededData
 }
-// randNum(6, numArr)
-// console.log(getData(numArr))
+console.log(randNum(8))
 
 
 

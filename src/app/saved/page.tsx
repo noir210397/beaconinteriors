@@ -20,12 +20,6 @@ const Page = () => {
             <AiTwotoneCalendar className="text-2xl mr-2" /> your currently have
             no saved items
           </div>
-          <Link
-            href={`/shop`}
-            className="p-2 uppercase bg-primary text-white block w-fit rounded-lg mt-[20px]"
-          >
-            return to shop
-          </Link>
         </div>
       )}
       {savedItems.length > 0 && (

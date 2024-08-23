@@ -25,7 +25,7 @@ interface Props {
 }
 
 const SingleProduct = ({ params }: Props) => {
-  const ref = useRef<HTMLDivElement | null>(null);
+  const ref = useRef<HTMLInputElement | null>(null);
   const mounted = useMounted();
   const [message, setMessage] = useState<null | string>(null);
   const { items: cartItems } = useSelector(cart);
@@ -55,7 +55,11 @@ const SingleProduct = ({ params }: Props) => {
   if (!item) notFound();
 
   function checkIsQuantity() {
-    const num = parseInt(ref.current!.textContent!.trim() as string);
+    const num = parseInt(ref.current!.value!.trim() as string);
+    if (!num) {
+      ref.current?.focus();
+      return;
+    }
     const isOkay = quantityInCart + num > item?.inStock!;
     if (!isOkay) {
       dispatch(addToCartByQuantity({ by: num, name: item!.name }));

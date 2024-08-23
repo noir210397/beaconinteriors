@@ -40,15 +40,19 @@ const SavedCard = ({ saved }: { saved: string }) => {
           <Image
             src={imageSrc}
             alt={name}
-            className="w-32 aspect-square object-contain"
+            className="w-28 aspect-square object-cover"
           />
           <p className="text-lg">{name}</p>
           <p className="text-sm">
             <span className="font-bold uppercase ">price:</span>
             <span> $ {price}</span>
           </p>
+
+          <button className="border-primary capitalize border px-4 py-2 rounded block w-fit my-2">
+            add to cart
+          </button>
           <button
-            className="text-gray-600 absolute right-3 bottom-3 text-lg p-2"
+            className="text-gray-600 absolute right-3 bottom-[40px] text-lg p-2"
             onClick={() => dispatch(removeFromSaved(name))}
           >
             <BsFillTrash3Fill />

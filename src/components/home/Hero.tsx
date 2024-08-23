@@ -1,5 +1,5 @@
 "use client";
-import { BsArrowRight } from "react-icons/bs";
+import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import { AiOutlineArrowRight } from "react-icons/ai";
 import Image from "next/image";
 import React, { MouseEvent, useEffect, useRef, useState } from "react";
@@ -10,32 +10,58 @@ const MotionImage = motion(Image);
 const Hero = () => {
   const [scope, animate] = useAnimate();
   const buttonRef = useRef<HTMLButtonElement | null>(null);
+  const stopButtonRef = useRef<HTMLButtonElement | null>(null);
   const sectionRef = useRef<HTMLDivElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
   const onEnter = (e: React.PointerEvent<HTMLDivElement>) => {
     if (window.matchMedia("(min-width:1024px)").matches) {
       const left = e.pageX - 120 / 2;
       const top = e.pageY - (64 + 120 / 2);
-      buttonRef!.current!.style.position = `absolute`;
-      buttonRef!.current!.style.left = `${left}px`;
-      buttonRef!.current!.style.top = `${top}px`;
+      if (buttonRef.current) {
+        buttonRef!.current!.style.position = `absolute`;
+        buttonRef!.current!.style.left = `${left}px`;
+        buttonRef!.current!.style.top = `${top}px`;
+      }
+      if (stopButtonRef.current) {
+        // stopButtonRef!.current!.style.position = `absolute`;
+        stopButtonRef!.current!.style.left = `${left}px`;
+        stopButtonRef!.current!.style.top = `${top}px`;
+      }
     } else {
-      buttonRef!.current!.style.position = `static`;
+      if (buttonRef.current) buttonRef!.current!.style.position = `static`;
+      if (stopButtonRef.current)
+        stopButtonRef!.current!.style.right = `${20}px`;
+      stopButtonRef!.current!.style.bottom = `${20}px`;
     }
   };
   const onLeave = (e: React.PointerEvent<HTMLDivElement>) => {
     if (window.matchMedia("(min-width:1024px)").matches) {
-    } else buttonRef!.current!.style.position = `static`;
+    } else {
+      if (buttonRef.current) buttonRef!.current!.style.position = `static`;
+      if (stopButtonRef.current)
+        stopButtonRef!.current!.style.right = `${20}px`;
+      stopButtonRef!.current!.style.bottom = `${20}px`;
+    }
   };
   const onMove = (e: React.PointerEvent<HTMLDivElement>) => {
     if (window.matchMedia("(min-width:1024px)").matches) {
       const left = e.pageX - 120 / 2;
       const top = e.pageY - (64 + 120 / 2);
-      buttonRef!.current!.style.left = `${left}px`;
-      buttonRef!.current!.style.top = `${top}px`;
+      if (buttonRef.current) {
+        buttonRef!.current!.style.position = `absolute`;
+        buttonRef!.current!.style.left = `${left}px`;
+        buttonRef!.current!.style.top = `${top}px`;
+      }
+      if (stopButtonRef.current) {
+        // stopButtonRef!.current!.style.position = `absolute`;
+        stopButtonRef!.current!.style.left = `${left}px`;
+        stopButtonRef!.current!.style.top = `${top}px`;
+      }
     } else {
-      buttonRef!.current!.style.position = `static`;
+      if (buttonRef.current) buttonRef!.current!.style.position = `static`;
+      if (stopButtonRef.current)
+        stopButtonRef!.current!.style.right = `${20}px`;
+      stopButtonRef!.current!.style.bottom = `${20}px`;
     }
   };
   useEffect(() => {
@@ -46,26 +72,35 @@ const Hero = () => {
     );
     animate(".myblur", { y: "-100%" }, { duration: 0.4, delay: 1.2 });
     animate(".front", { color: "white" }, { delay: 1.3 });
-    // animate(".front span:nth-child(2)", { color: "white" }, { delay: 1.3 });
-    // animate(".front span:nth-child(3)", { color: "white" }, { delay: 1.3 });
   }, []);
-  useEffect(() => {
-    if (isPlaying) {
-      animate(".front", { y: "100%", display: "none" }, { duration: 0.5 }).then(
-        () => {}
-        // animate(".myblur", { display: "none" })
-      );
-      animate(".play", { display: "none" }, { duration: 0 });
-      animate(".image", { display: "none" }, { duration: 0.4 });
-      animate("video", { opacity: 1 }).then(() => {
-        if (videoRef.current) {
-          videoRef.current.play();
-          console.log("playing");
-        }
-      });
-    } else {
+  function play(e: React.MouseEvent<HTMLButtonElement>) {
+    e.stopPropagation();
+    buttonRef.current!.style.visibility = "hidden";
+    stopButtonRef.current!.style.visibility = "visible";
+    ``;
+    animate(".front", { y: "100%", opacity: 0 }, { duration: 0.5 }).then(
+      () => {}
+    );
+    animate(".image", { opacity: 0 }, { duration: 0.4 });
+    animate("video", { opacity: 1 }).then(() => {
+      if (videoRef.current) {
+        videoRef.current.play();
+      }
+    });
+  }
+  function stop(e: React.MouseEvent<HTMLButtonElement>) {
+    e.stopPropagation();
+    stopButtonRef.current!.style.visibility = "hidden";
+    buttonRef.current!.style.visibility = "visible";
+    if (videoRef.current) {
+      videoRef.current.pause();
     }
-  }, [isPlaying]);
+    animate(".front", { y: "0", opacity: 1 }, { duration: 0.5 }).then(() => {
+      animate("video", { opacity: 0 });
+      videoRef.current!.currentTime = 0;
+    });
+    animate(".image", { opacity: 1 }, { duration: 0.4 });
+  }
 
   return (
     <div
@@ -107,15 +142,18 @@ const Hero = () => {
       </motion.div>
       <button
         ref={buttonRef}
-        onClick={(e) => {
-          e.stopPropagation();
-          setIsPlaying(true);
-          console.log("here");
-        }}
-        className=" lg:w-[120px] md:w-[96px] w-[70px] z-[1] play  lg:cursor-none  relative  aspect-square rounded-full justify-center items-center flex border-2 border-white text-white lg:text-[60px] text-[40px] font-normal lead-none"
+        onClick={play}
+        className={`lg:w-[120px] md:w-[96px] w-[70px] z-[1] play  lg:cursor-none  relative  aspect-square rounded-full justify-center items-center flex border-2 border-white text-white lg:text-[60px] text-[40px] font-normal lead-none`}
       >
-        {/* <AiOutlineArrowRight /> */}
         <BsArrowRight />
+      </button>
+      <button
+        onClick={stop}
+        ref={stopButtonRef}
+        className={`lg:w-[100px] z-[7] md:w-[80px] w-[60px] invisible  lg:cursor-none  absolute bottom-[20px] right-[30px] aspect-square rounded-full justify-center items-center flex border-2 border-white text-white lg:text-[40px] text-[20px] font-normal lead-none 
+        `}
+      >
+        <BsArrowLeft />
       </button>
     </div>
   );
