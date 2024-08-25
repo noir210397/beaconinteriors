@@ -48,7 +48,7 @@ const SetQuantity = forwardRef<HTMLInputElement, Props>(
             type="number"
             min={1}
             max={maxnumber}
-            className="w-full text-center  text-lg font-bold focus"
+            className="w-full text-center  text-lg font-bold focus bg-transparent"
             onChange={(e) => {
               const num = parseInt(e.target.value);
               // console.log(num);

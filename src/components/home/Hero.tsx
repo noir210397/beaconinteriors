@@ -104,7 +104,7 @@ const Hero = () => {
 
   return (
     <div
-      className="h-[calc(100vh-80px)]  lg:cursor-none cursor-pointer lg:justify-between  bg-center bg-cover flex lg:flex-row flex-col gap-3 justify-center items-center relative px-5 overflow-hidden "
+      className="h-[calc(100vh-64px)]  lg:cursor-none cursor-pointer lg:justify-between  bg-center bg-cover flex lg:flex-row flex-col gap-3 justify-center items-center relative px-5 overflow-hidden "
       onPointerEnter={onEnter}
       onPointerLeave={onLeave}
       onPointerMove={onMove}
@@ -114,7 +114,7 @@ const Hero = () => {
         loop
         muted
         ref={videoRef}
-        className="absolute inset-0 min-w-full border-2 border-green-700 h-full object-cover opacity-0"
+        className="absolute inset-0 min-w-full h-full object-cover opacity-0"
       >
         <source src="/video/video_bg.mp4" type="video/mp4" />
       </video>

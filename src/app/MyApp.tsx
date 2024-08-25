@@ -47,7 +47,7 @@ const MyApp = ({ children }: { children: React.ReactNode }) => {
 
   if (!mounted)
     return (
-      <div className="bg-secondary fixed z-[5] inset-x-0 h-[calc(100vh-64px)] top-16 border-2 border-yellow-600"></div>
+      <div className="bg-secondary fixed z-[5] inset-x-0 h-[calc(100vh-64px)] top-16"></div>
     );
   return <>{children}</>;
 };

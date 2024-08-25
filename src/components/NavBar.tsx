@@ -14,6 +14,7 @@ import { cart } from "@/store/cart";
 import { usePathname } from "next/navigation";
 import CartData from "./cart/CartData";
 import SearchModal from "./SearchModal";
+import { AnimatePresence } from "framer-motion";
 
 type CartProps = {
   $isopen: boolean;
@@ -98,6 +99,7 @@ const NavBar = () => {
   const openSearch = () => {
     setSearchOpen(!searchOpen);
   };
+
   const openCart = () => {
     setMenuOpen(false);
     setCartOpen(!cartOpen);
@@ -140,13 +142,14 @@ const NavBar = () => {
           {links.map((link) => (
             <Link
               key={link.name}
-              className="uppercase text-mydark hover:underline decoration-2 decoration-primary font-extrabold lg:font-semibold text-lg lg:text-base"
+              className="uppercase relative text-mydark hover:underline font-extrabold lg:font-semibold text-lg lg:text-base"
               href={`${link.path}`}
               onClick={() => {
                 setCartOpen(false);
                 setMenuOpen(false);
               }}
             >
+              <span className="block w-full h-[1px] bg-mydark absolute bottom-0"></span>
               {link.name}
             </Link>
           ))}
@@ -218,7 +221,9 @@ const NavBar = () => {
           )}
         </div>
       </Cart>
-      {searchOpen && <SearchModal openSearch={openSearch} />}
+      <AnimatePresence>
+        {searchOpen && <SearchModal openSearch={openSearch} />}
+      </AnimatePresence>
     </nav>
   );
 };

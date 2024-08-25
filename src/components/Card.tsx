@@ -38,7 +38,7 @@ const Card = ({ name, price, image, style }: CardType) => {
           {/* <button className="text-3xl  text-primary">
             <AiOutlineHeart />
           </button> */}
-          <SaveButton itemName={`${name}`} />
+          <SaveButton itemName={`${name}`} checkSaved />
         </div>
       </CardInformation>
     </CardWrapper>
