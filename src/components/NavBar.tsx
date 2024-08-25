@@ -14,12 +14,13 @@ import { cart } from "@/store/cart";
 import { usePathname } from "next/navigation";
 import CartData from "./cart/CartData";
 import SearchModal from "./SearchModal";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, useAnimate, motion } from "framer-motion";
 
 type CartProps = {
   $isopen: boolean;
 };
 const LinkWrapper = tw.div` flex gap-10 pt-5 lg:pt-0 lg:flex-row flex-col `;
+const MotionLink = motion(Link);
 const Cart = tw.div<{
   $isopen: boolean;
   $isCartEmpty: boolean;
@@ -52,6 +53,7 @@ const links = [
 ];
 
 const NavBar = () => {
+  const [scope, animate] = useAnimate();
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const [cartOpen, setCartOpen] = useState<boolean>(false);
   const [searchOpen, setSearchOpen] = useState<boolean>(false);
@@ -138,20 +140,37 @@ const NavBar = () => {
             <AiOutlineHeart />
           </Link>
         </div>
-        <LinkWrapper>
+        <LinkWrapper ref={scope}>
           {links.map((link) => (
-            <Link
+            <MotionLink
+              onHoverStart={() => {
+                animate(
+                  `.${link.name.replace(" ", "-")}>span`,
+                  { width: "100%" },
+                  { duration: 0.1 }
+                );
+              }}
+              onHoverEnd={() => {
+                animate(
+                  `.${link.name.replace(" ", "-")}>span`,
+                  { width: 0 },
+                  { duration: 0.1 }
+                );
+              }}
               key={link.name}
-              className="uppercase relative text-mydark hover:underline font-extrabold lg:font-semibold text-lg lg:text-base"
+              className={`${link.name.replace(
+                " ",
+                "-"
+              )} uppercase relative text-mydark font-extrabold lg:font-semibold text-lg lg:text-base`}
               href={`${link.path}`}
               onClick={() => {
                 setCartOpen(false);
                 setMenuOpen(false);
               }}
             >
-              <span className="block w-full h-[1px] bg-mydark absolute bottom-0"></span>
+              <span className="w-0 h-[1.4px] bg-mydark absolute bottom-0 left-1/2 -translate-x-1/2"></span>
               {link.name}
-            </Link>
+            </MotionLink>
           ))}
         </LinkWrapper>
       </div>
