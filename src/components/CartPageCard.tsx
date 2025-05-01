@@ -9,12 +9,18 @@ const CartPageCard = ({
   name,
   price,
   quantity,
-}: ProductWithQuantity) => {
+  borderBottom,
+}: ProductWithQuantity & { borderBottom?: boolean }) => {
   const imageData = data.find((item) => item.name === name)!.images;
   const imageSrc = Array.isArray(imageData) ? imageData[0] : imageData;
 
   return (
-    <tr key={name} className=" min-[650px]:border-b min-[650px]:border-b-black">
+    <tr
+      key={name}
+      className={` ${
+        !borderBottom ? "min-[650px]:border-b min-[650px]:border-b-black" : ""
+      }`}
+    >
       <td className="max-[650px]:hidden py-10">
         <Image
           src={imageSrc}
@@ -28,7 +34,7 @@ const CartPageCard = ({
       <td className="max-[650px]:hidden text-center px-2">
         $ {price * quantity}
       </td>
-      <td className="max-[650px]:hidden text-center px-2">
+      <td className={`max-[650px]:hidden text-center px-2 `}>
         <RemoveFromCartButton
           className="text-2xl font-extrabold"
           itemName={`${name}`}

@@ -39,7 +39,7 @@ const Philosophy = () => {
         />
       </div>
       <div className="p-4 flex flex-col items-center md:items-start">
-        <p className="max-w-lg text-center font-extrabold">
+        <p className="max-w-lg text-center">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis ad
           eligendi quibusdam temporibus ab. Ad facilis recusandae architecto
           alias eius dolorum, nostrum modi neque culpa cumque saepe earum

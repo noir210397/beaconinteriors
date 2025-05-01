@@ -128,7 +128,7 @@ const NavBar = () => {
             <BiSearch />
           </button>
           <Link
-            href={`/login`}
+            href={`/my-account`}
             className="text-2xl font-extrabold lg:text-xl  flex justify-center items-center "
           >
             <BsPerson />
@@ -180,7 +180,7 @@ const NavBar = () => {
             <BiSearch />
           </button>
           <Link
-            href={`/login`}
+            href={`/my-account`}
             className=" font-extrabold text-xl  flex justify-center items-center "
             onClick={() => {
               setCartOpen(false);

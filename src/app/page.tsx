@@ -1,3 +1,4 @@
+"use client";
 import Carousel from "@/components/Carousel";
 import SectionHeaders from "@/components/SectionHeaders";
 import BearSection from "@/components/home/BearSection";
@@ -5,9 +6,11 @@ import Hero from "@/components/home/Hero";
 import OurProjects from "@/components/home/OurProjects";
 import Philosophy from "@/components/home/Philosophy";
 import Services from "@/components/home/Services";
+import useSpecificHeightScrolling from "@/hooks/useSpecificHeightScrolling";
 import { getData, randNum } from "@/products";
 
 export default function Home() {
+  useSpecificHeightScrolling();
   const arr = randNum(8);
   const data = getData(arr);
   return (

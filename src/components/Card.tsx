@@ -17,13 +17,16 @@ const Card = ({ name, price, image, style }: CardType) => {
     router.push(`/product/${name.replaceAll(" ", "-").toLowerCase()}`);
   };
   return (
-    <CardWrapper className={`${style} cursor-pointer`} onClick={navigate}>
-      <div className="lg:h-64 md:h-56 h-48 relative">
+    <CardWrapper
+      className={`${style} cursor-pointer h-fit `}
+      onClick={navigate}
+    >
+      <div className="w-full relative aspect-[1/.7]">
         <Image
           src={Array.isArray(image) ? image[0] : image}
           alt={"west"}
           fill={true}
-          className=" object-cover"
+          className=" object-cover w-full "
         />
       </div>
       <CardInformation>

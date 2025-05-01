@@ -4,7 +4,39 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+*{
+  cursor:pointer
+}
+@media screen and (min-width: 768px) {
+ 
 
+  /* WebKit scrollbar styling (Chrome, Safari) */
+  *::-webkit-scrollbar {
+    width: 20px; /* Scrollbar width for WebKit browsers */
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: #A18565; 
+    height: 10px;
+
+    border-radius: 100vw; /* Fully rounded corners for pill shape */
+    /* Thumb (scroll handle) color */
+  }
+
+  *::-webkit-scrollbar-track {
+    background-color: #EDECE9; /* Track (scroll background) color */
+    border-radius: 100vw; /* Fully rounded corners for pill shape */
+
+  }
+   /* Firefox scrollbar styling */
+   @supports(scrollbar-color:red blue){
+
+     * {
+      scrollbar-width: thin; /* 'thin', 'auto', or 'none' */
+      scrollbar-color: #A18565 #EDECE9; /* thumb color, track color */
+    }
+   }
+}
 
 .carousel {
     scrollbar-width: none; 

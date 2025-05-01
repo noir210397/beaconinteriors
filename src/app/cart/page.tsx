@@ -55,8 +55,12 @@ const Page = () => {
             </tr>
           </thead>
           <tbody>
-            {cartItems.map((cartItem) => (
-              <CartPageCard {...cartItem} key={cartItem.name} />
+            {cartItems.map((cartItem, index) => (
+              <CartPageCard
+                {...cartItem}
+                key={cartItem.name}
+                borderBottom={index + 1 === cartItems.length}
+              />
             ))}
           </tbody>
         </table>

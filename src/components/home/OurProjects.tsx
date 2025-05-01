@@ -4,12 +4,11 @@ import SectionHeaders from "../SectionHeaders";
 import image from "../../../public/images/interior.jpg";
 import image2 from "../../../public/images/interior2.jpg";
 import SectionLinks from "./SectionLinks";
-import InfiniteScroller from "./InfiniteScroller";
+// import InfiniteScroller from "./InfiniteScroller";
 
 const OurProjects = () => {
   return (
     <section className="">
-      <InfiniteScroller />
       <SectionHeaders topheader="our" bottomheader="projects" />
       <div className="relative item  flex justify-end align-top  flex-nowrap overflow-hidden">
         <Image
@@ -25,7 +24,7 @@ const OurProjects = () => {
         />
       </div>
       <div className="p-4 flex flex-col items-center md:items-start">
-        <p className="max-w-lg text-center font-extrabold">
+        <p className="max-w-lg text-center">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis ad
           eligendi quibusdam temporibus ab. Ad facilis recusandae architecto
           alias eius dolorum, nostrum modi neque culpa cumque saepe earum

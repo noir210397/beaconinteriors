@@ -1,6 +1,6 @@
 "use client";
 import { AiOutlineHeart } from "react-icons/ai";
-import { data } from "@/products";
+import { data, Product } from "@/products";
 import { notFound } from "next/navigation";
 import React, { useRef, useState } from "react";
 import tw from "tailwind-styled-components";
@@ -17,9 +17,18 @@ import { toast } from "sonner";
 import useMounted from "@/hooks/useMounted";
 import Link from "next/link";
 import SaveButton from "@/components/SaveButton";
+import Button from "@/components/Button";
+import { GiCancel } from "react-icons/gi";
+import { AnimatePresence, motion } from "framer-motion";
 const StickyContainer = tw.div` p-2 lg:sticky static flex flex-col gap-4 lg:items-start top-[76px] lg:h-[70vh] lg:ml-[20px] lg:w-[calc(45%-20px)] overflow-y-auto w-full items-center  `;
 const Wrapper = tw.div`flex-1`;
 const CardsContainer = tw.div`mt-[10vh]`;
+const Modal = motion(
+  tw.div<{
+    $modal: number | null;
+  }>`fixed inset-0 bg-black bg-opacity-40 z-[10000] flex justify-center items-center `
+);
+const MotionImage = motion(Image);
 interface Props {
   params: { slug: string };
 }
@@ -28,10 +37,12 @@ const SingleProduct = ({ params }: Props) => {
   const ref = useRef<HTMLInputElement | null>(null);
   const mounted = useMounted();
   const [message, setMessage] = useState<null | string>(null);
+  const [modal, setModal] = useState<number | null>(null);
   const { items: cartItems } = useSelector(cart);
   const dispatch = useAppDispatch();
   const productName = params.slug.replaceAll("-", " ").toLowerCase();
   const item = data.find((item) => item.name.toLowerCase() === productName);
+  const multipleImages = Array.isArray(item?.images);
   function getRelatedProducts() {
     if (item) {
       const index = data.findIndex(
@@ -74,6 +85,40 @@ const SingleProduct = ({ params }: Props) => {
   }
   return (
     <div className="relative">
+      {/* <AnimatePresence> */}
+      {modal && (
+        <Modal
+          $modal={modal}
+          // layoutId={`${item.name}-${modal}`}
+          transition={{ duration: 0.1 }}
+        >
+          <Button
+            onClick={() => setModal(null)}
+            className="text-xl absolute z-[4] top-0 left-0"
+          >
+            <GiCancel />
+          </Button>
+          <div className="border-2 border-purple-700 ">
+            <button>backward</button>
+            <button>forward</button>
+
+            <motion.div
+              // style={{ transform: `-translateX(${(modal - 1) * 100})` }}
+              className="aspect-square w-[400px]"
+            >
+              <Image
+                alt={`${item.name}-${modal - 1}`}
+                src={
+                  !Array.isArray(item.images)
+                    ? item.images
+                    : item.images[modal - 1]
+                }
+              />
+            </motion.div>
+          </div>
+        </Modal>
+      )}
+      {/* </AnimatePresence> */}
       {mounted && quantityInCart !== 0 && (
         <div className="flex p-2 gap-2 justify-center items-center flex-wrap bg-white">
           <div className="text-center p-2 text-xs capitalize text-primary max-w-sm">
@@ -89,7 +134,7 @@ const SingleProduct = ({ params }: Props) => {
           </Link>
         </div>
       )}
-      <div className=" relative flex lg:flex-row flex-col gap-8 items-center lg:items-start py-3    ">
+      <div className="relative flex lg:flex-row flex-col gap-8 items-center lg:items-start py-3">
         <StickyContainer>
           <h1 className="lg:text-7xl md:text-5xl text-4xl lg:text-start text-center w-full max-w-lg">
             {item.name}
@@ -124,25 +169,39 @@ const SingleProduct = ({ params }: Props) => {
         <Wrapper>
           {Array.isArray(item.images) ? (
             item.images.map((image, index) => (
-              <Image
+              <MotionImage
                 src={image}
-                alt={`${item.name}-${index}`}
-                key={`${item.name}-${index}`}
-                className="w-full"
+                alt={`${item.name}-${index + 1}`}
+                key={`${item.name}-${index + 1}`}
+                className="w-full object-cover"
+                id={`${item.name}-${index + 1}`}
+                onClick={(e) => {
+                  setModal(index + 1);
+                  console.log(index);
+                }}
+                // layoutId={`${item.name}-${index + 1}`}
+                transition={{ duration: 0.1 }}
               />
             ))
           ) : (
-            <Image
+            <MotionImage
               src={item.images}
               alt={`${item.name}`}
-              className="w-full object-contain"
+              id={`${item.name}-${1}`}
+              className="w-full object-cover"
+              onClick={() => {
+                setModal(1);
+                console.log("done");
+              }}
+              // layoutId={`${item.name}-1`}
+              transition={{ duration: 0.1 }}
             />
           )}
         </Wrapper>
       </div>
       <CardsContainer>
         <SectionHeaders topheader="related" bottomheader="products" />
-        <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-8 py-8 px-3 md:w-[90%]  mx-auto w-[80%] ">
+        <div className="grid lg:grid-cols-3 min-[617px]:grid-cols-2 max-[617px]:grid-cols-1 gap-12 lg:pb-[50px] px-3 md:w-[90%]   mx-auto ">
           {relatedProducts
             ? relatedProducts.map((product, index) => (
                 <Card
@@ -150,9 +209,10 @@ const SingleProduct = ({ params }: Props) => {
                   name={product.name}
                   price={product.price}
                   key={`${product.name}-${product.price}`}
-                  style={`w-full ${
-                    index === 1 && "lg:mt-8 md:translate-y-1/2 lg:translate-y-0"
-                  } ${index === 2 && " lg:mt-0 mt-0"}`}
+                  style={`min-[617px]:w-full max-[617px]:w-[90%] max-[617px]:mx-auto ${
+                    index === 1 &&
+                    "min-[617px]:translate-y-1/3 lg:translate-y-[50px]"
+                  } `}
                 />
               ))
             : ""}
@@ -163,3 +223,34 @@ const SingleProduct = ({ params }: Props) => {
 };
 
 export default SingleProduct;
+
+function SingleProductCarousel({
+  item,
+  modal,
+}: {
+  item: Product;
+  modal: number;
+}) {
+  const [visibleImage, setVisibleImage] = useState(modal);
+
+  return (
+    <motion.div className="aspect-square w-[400px]">
+      <button>forward</button>
+      <motion.div className="aspect-square w-[400px]">
+        <AnimatePresence>
+          <MotionImage
+            alt={``}
+            src={
+              !Array.isArray(item.images)
+                ? item.images
+                : item.images[visibleImage - 1]
+            }
+            exit={{ x: -10000 }}
+            transition={{ duration: 0.5, delay: 0.25 }}
+          />
+        </AnimatePresence>
+      </motion.div>
+      <button>backward</button>
+    </motion.div>
+  );
+}

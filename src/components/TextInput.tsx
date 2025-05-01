@@ -1,4 +1,5 @@
 import React, { ComponentProps } from "react";
+import { twMerge } from "tailwind-merge";
 interface Props extends ComponentProps<"input"> {
   errorMsg?: string;
 }
@@ -10,7 +11,10 @@ const TextInput = ({ className, errorMsg, id, ...rest }: Props) => {
           type="text"
           name={id}
           id={id}
-          className={`${className} w-full py-2 focus:outline-none border-b bg-transparent border-mydark`}
+          className={twMerge(
+            ` w-full py-2 focus:outline-none border-b bg-transparent border-mydark`,
+            className
+          )}
           {...rest}
         />
         {errorMsg && <span className="block">{errorMsg}</span>}
