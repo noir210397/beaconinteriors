@@ -128,14 +128,14 @@ const Hero = () => {
         initial={{ y: "100%", opacity: 0 }}
         className="flex w-max relative flex-col gap-10 p-4 lg:cursor-none z-[6] front  blur-sm items-center   "
       >
-        <motion.span className="block  text-[50px] lg:text-[70px] uppercase font-extrabold  leading-none  ">
+        <motion.span className="block text-[calc(1vw+40px)]  md:text-[calc(1vw+50px)] lg:text-[calc(1vw+50px)] uppercase font-extrabold  leading-none  ">
           passion
         </motion.span>
         <p className="lg:flex-col flex-row gap-4 flex lg:gap-10">
-          <motion.span className="block lg:w-full text-[50px] lg:text-[70px] lg:text-end  uppercase font-extrabold  leading-none  ">
+          <motion.span className="block lg:w-full text-[calc(1vw+40px)] md:text-[calc(1vw+50px)] lg:text-[calc(1vw+50px)] lg:text-end  uppercase font-extrabold  leading-none  ">
             for
           </motion.span>
-          <motion.span className="block lg:w-full text-[50px] lg:text-[70px] uppercase font-extrabold  leading-none  ">
+          <motion.span className="block lg:w-full text-[calc(1vw+40px)] md:text-[calc(1vw+50px)] lg:text-[calc(1vw+50px)] uppercase font-extrabold  leading-none  ">
             quality
           </motion.span>
         </p>

@@ -1,3 +1,4 @@
+"use client";
 import React, { ComponentProps, HTMLAttributes } from "react";
 interface ButtonProps extends ComponentProps<"button"> {}
 

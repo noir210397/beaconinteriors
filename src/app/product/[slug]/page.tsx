@@ -1,8 +1,13 @@
 "use client";
-import { AiOutlineHeart } from "react-icons/ai";
-import { data, Product } from "@/products";
+import { AiOutlineClose } from "react-icons/ai";
+import {
+  AiOutlineArrowLeft,
+  AiOutlineArrowRight,
+  AiOutlineHeart,
+} from "react-icons/ai";
+import { data, isImageArray, Product } from "@/products";
 import { notFound } from "next/navigation";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import tw from "tailwind-styled-components";
 import Image from "next/image";
 import Accordion from "@/components/Accordion";
@@ -18,23 +23,35 @@ import useMounted from "@/hooks/useMounted";
 import Link from "next/link";
 import SaveButton from "@/components/SaveButton";
 import Button from "@/components/Button";
-import { GiCancel } from "react-icons/gi";
-import { AnimatePresence, motion } from "framer-motion";
-const StickyContainer = tw.div` p-2 lg:sticky static flex flex-col gap-4 lg:items-start top-[76px] lg:h-[70vh] lg:ml-[20px] lg:w-[calc(45%-20px)] overflow-y-auto w-full items-center  `;
+import { AnimatePresence, motion, useAnimate } from "framer-motion";
+import {
+  AccordionContent,
+  AccordionHeader,
+  AccordionItem,
+  AccordionRoot,
+} from "@/components/accordion/Accordion";
+const StickyContainer = tw.div` p-2 md:sticky static flex flex-col gap-4 lg:items-start top-[76px] md:h-[70vh] md:ml-[20px] md:w-[calc(45%-20px)] overflow-y-auto w-full items-center  `;
 const Wrapper = tw.div`flex-1`;
 const CardsContainer = tw.div`mt-[10vh]`;
 const Modal = motion(
   tw.div<{
     $modal: number | null;
-  }>`fixed inset-0 bg-black bg-opacity-40 z-[10000] flex justify-center items-center `
+  }>`fixed inset-0 overflow-x-hidden bg-white bg-opacity-40 z-[10000] flex justify-center items-center `
 );
 const MotionImage = motion(Image);
 interface Props {
   params: { slug: string };
 }
+type Dimension = {
+  left: number;
+  top: number;
+  width: number;
+  height: number;
+};
 
 const SingleProduct = ({ params }: Props) => {
   const ref = useRef<HTMLInputElement | null>(null);
+  const dimensionRef = useRef<null | Dimension>(null);
   const mounted = useMounted();
   const [message, setMessage] = useState<null | string>(null);
   const [modal, setModal] = useState<number | null>(null);
@@ -43,6 +60,15 @@ const SingleProduct = ({ params }: Props) => {
   const productName = params.slug.replaceAll("-", " ").toLowerCase();
   const item = data.find((item) => item.name.toLowerCase() === productName);
   const multipleImages = Array.isArray(item?.images);
+  function getDimensions(element: HTMLElement) {
+    const dimension = element.getBoundingClientRect();
+    dimensionRef.current = {
+      left: dimension.left,
+      height: element.clientHeight,
+      top: dimension.top,
+      width: element.clientWidth,
+    };
+  }
   function getRelatedProducts() {
     if (item) {
       const index = data.findIndex(
@@ -85,40 +111,18 @@ const SingleProduct = ({ params }: Props) => {
   }
   return (
     <div className="relative">
-      {/* <AnimatePresence> */}
       {modal && (
-        <Modal
-          $modal={modal}
-          // layoutId={`${item.name}-${modal}`}
-          transition={{ duration: 0.1 }}
-        >
-          <Button
-            onClick={() => setModal(null)}
-            className="text-xl absolute z-[4] top-0 left-0"
-          >
-            <GiCancel />
-          </Button>
-          <div className="border-2 border-purple-700 ">
-            <button>backward</button>
-            <button>forward</button>
-
-            <motion.div
-              // style={{ transform: `-translateX(${(modal - 1) * 100})` }}
-              className="aspect-square w-[400px]"
-            >
-              <Image
-                alt={`${item.name}-${modal - 1}`}
-                src={
-                  !Array.isArray(item.images)
-                    ? item.images
-                    : item.images[modal - 1]
-                }
-              />
-            </motion.div>
-          </div>
+        <Modal $modal={modal} onClick={() => setModal(null)}>
+          <AnimatePresence>
+            <SingleProductCarousel
+              item={item}
+              modal={modal}
+              dimension={dimensionRef.current}
+              setModal={setModal}
+            />
+          </AnimatePresence>
         </Modal>
       )}
-      {/* </AnimatePresence> */}
       {mounted && quantityInCart !== 0 && (
         <div className="flex p-2 gap-2 justify-center items-center flex-wrap bg-white">
           <div className="text-center p-2 text-xs capitalize text-primary max-w-sm">
@@ -134,12 +138,12 @@ const SingleProduct = ({ params }: Props) => {
           </Link>
         </div>
       )}
-      <div className="relative flex lg:flex-row flex-col gap-8 items-center lg:items-start py-3">
+      <div className="relative flex md:flex-row flex-col gap-8 items-center lg:items-start py-3">
         <StickyContainer>
           <h1 className="lg:text-7xl md:text-5xl text-4xl lg:text-start text-center w-full max-w-lg">
             {item.name}
           </h1>
-          <p className="font-semibold lg:text-start text-center w-full max-w-lg">
+          <p className=" md:text-start text-center w-full max-w-lg">
             {item.description}
           </p>
           <span className="text-xl font-bold w-full text-center lg:text-start">
@@ -149,22 +153,40 @@ const SingleProduct = ({ params }: Props) => {
             {item.inStock} in stock
           </span>
           <SetQuantity maxnumber={item.inStock} ref={ref} />
-          <div className="flex gap-2 justify-center lg:justify-normal items-center w-full flex-wrap  ">
+          <div className="flex gap-2 justify-center md:justify-normal items-center w-full flex-wrap  ">
             <AddToCartButton
               onClick={checkIsQuantity}
-              className="px-14 py-2 hover:bg-mydark uppercase bg-primary text-white rounded flex-1  min-w-max lg:flex-none "
+              className="px-14 py-2 hover:bg-mydark uppercase bg-primary text-white rounded flex-1  min-w-max md:flex-none "
             >
               add to cart
             </AddToCartButton>
 
             <SaveButton itemName={item.name} checkSaved />
           </div>
-          {item.shortDescription && (
+          <div className="w-full">
+            <AccordionRoot type="multiple">
+              {item.shortDescription && (
+                <AccordionItem value="description">
+                  <AccordionHeader hasIcon>Description</AccordionHeader>
+                  <AccordionContent animate>
+                    {item.shortDescription}
+                  </AccordionContent>
+                </AccordionItem>
+              )}
+              {item.dimensions && (
+                <AccordionItem value="dimension">
+                  <AccordionHeader hasIcon>Dimensions</AccordionHeader>
+                  <AccordionContent animate>{item.dimensions}</AccordionContent>
+                </AccordionItem>
+              )}
+            </AccordionRoot>
+          </div>
+          {/* {item.shortDescription && (
             <Accordion header={`description`} text={item.description} />
-          )}
-          {item.dimensions && (
+          )} */}
+          {/* {item.dimensions && (
             <Accordion header={`dimensions`} text={item.dimensions} />
-          )}
+          )} */}
         </StickyContainer>
         <Wrapper>
           {Array.isArray(item.images) ? (
@@ -176,6 +198,7 @@ const SingleProduct = ({ params }: Props) => {
                 className="w-full object-cover"
                 id={`${item.name}-${index + 1}`}
                 onClick={(e) => {
+                  getDimensions(e.currentTarget);
                   setModal(index + 1);
                   console.log(index);
                 }}
@@ -189,7 +212,9 @@ const SingleProduct = ({ params }: Props) => {
               alt={`${item.name}`}
               id={`${item.name}-${1}`}
               className="w-full object-cover"
-              onClick={() => {
+              onClick={(e) => {
+                getDimensions(e.currentTarget);
+
                 setModal(1);
                 console.log("done");
               }}
@@ -227,30 +252,121 @@ export default SingleProduct;
 function SingleProductCarousel({
   item,
   modal,
+  dimension,
+  setModal,
 }: {
   item: Product;
   modal: number;
+  dimension: Dimension | null;
+  setModal: React.Dispatch<React.SetStateAction<number | null>>;
 }) {
   const [visibleImage, setVisibleImage] = useState(modal);
+  const [scope, animate] = useAnimate();
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
+  const initialRender = useRef(true);
+
+  useEffect(() => {
+    animate(
+      scope.current,
+      {
+        height: 400,
+        objectFit: "contain",
+        left: "50%",
+        x: "-50%",
+        top: "50%",
+        y: "-50%",
+      },
+      { duration: 0.2 }
+    ).then(() => {
+      if (buttonRef.current) {
+        const card = buttonRef.current.parentElement!.querySelector(
+          ".active-card"
+        )! as HTMLDivElement;
+        const decoyImage = buttonRef.current.parentElement!.querySelector(
+          "#decoy-image"
+        )! as HTMLDivElement;
+        card.style.opacity = "1";
+        console.log(card);
+        initialRender.current = false;
+        decoyImage.style.display = "none";
+        // decoyImage.style.opacity = "0";
+      }
+    });
+    // const cardDimensions = card.getBoundingClientRect();
+  }, []);
 
   return (
-    <motion.div className="aspect-square w-[400px]">
-      <button>forward</button>
-      <motion.div className="aspect-square w-[400px]">
-        <AnimatePresence>
-          <MotionImage
-            alt={``}
-            src={
-              !Array.isArray(item.images)
-                ? item.images
-                : item.images[visibleImage - 1]
-            }
-            exit={{ x: -10000 }}
-            transition={{ duration: 0.5, delay: 0.25 }}
-          />
-        </AnimatePresence>
+    <>
+      <MotionImage
+        ref={scope}
+        src={item.images[visibleImage - 1]}
+        alt={`${item.name}-image-${visibleImage}`}
+        id="decoy-image"
+        className="z-[1000] "
+        initial={{
+          width: dimension?.width,
+          height: dimension?.height,
+          top: dimension?.top,
+          left: dimension?.left,
+          objectFit: "none",
+          position: "fixed",
+        }}
+        transition={{ duration: 0.2 }}
+      />
+      <button
+        disabled={visibleImage === 1}
+        onClick={(e) => {
+          e.stopPropagation();
+          setVisibleImage(visibleImage - 1);
+        }}
+        ref={buttonRef}
+        className="absolute left-2 z-10 text-lg aspect-square p-4 rounded-full border border-black"
+      >
+        <AiOutlineArrowLeft />
+      </button>
+
+      <motion.div className=" relative w-full overflow-hidden">
+        <div
+          style={{ transform: `translateX(-${(visibleImage - 1) * 100}%)` }}
+          className="w-full flex  ease-in-out duration-150 "
+        >
+          {item.images.length > 0 ? (
+            item.images.map((image, index) => {
+              const check = index + 1 === visibleImage;
+              return (
+                <div
+                  key={`${item.name}-${index} `}
+                  onClick={() => {
+                    setModal(null);
+                  }}
+                  className={`flex   w-full h-[400px]  flex-shrink-0 justify-center`}
+                >
+                  <MotionImage
+                    alt={``}
+                    onClick={(e) => e.stopPropagation()}
+                    src={image}
+                    className={` ${
+                      check && initialRender.current && "active-card opacity-0"
+                    } object-contain h-full`}
+                  />
+                </div>
+              );
+            })
+          ) : (
+            <></>
+          )}
+        </div>
       </motion.div>
-      <button>backward</button>
-    </motion.div>
+      <button
+        disabled={visibleImage === item.images.length}
+        onClick={(e) => {
+          e.stopPropagation();
+          setVisibleImage(visibleImage + 1);
+        }}
+        className="absolute right-2 z-10 text-lg aspect-square p-4 rounded-full border border-black"
+      >
+        <AiOutlineArrowRight />
+      </button>
+    </>
   );
 }

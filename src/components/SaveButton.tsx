@@ -1,3 +1,4 @@
+"use client";
 import { AiFillHeart } from "react-icons/ai";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { addToSaved } from "@/store/saved";

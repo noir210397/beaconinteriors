@@ -51,7 +51,7 @@ export interface Product {
     shortDescription: string,
     dimensions?: string,
     category: "Furniture" | "Lighting",
-    images: StaticImageData | StaticImageData[]
+    images: StaticImageData[]
 }
 
 export const data: Product[] = [
@@ -64,7 +64,7 @@ export const data: Product[] = [
         The Alano Armchair combines sleek design and plush comfort, featuring premium upholstery and a sturdy frame for stylish, modern seating.`,
         category: "Furniture",
         dimensions: "CM| L:80 D:80 H:81",
-        images: image,
+        images: [image,]
     },
     {
         name: "Klismos Chair",
@@ -74,7 +74,7 @@ export const data: Product[] = [
         shortDescription: "Elegant, ergonomic chair inspired by ancient Greek design.",
         dimensions: "30\" H x 22\" W x 23\" D",
         category: "Furniture",
-        images: image1,
+        images: [image1,]
     },
     {
         name: "Marble Side Table",
@@ -84,7 +84,7 @@ export const data: Product[] = [
         shortDescription: "Luxurious marble table with sleek metal frame.",
         dimensions: "20\" H x 18\" W x 18\" D",
         category: "Furniture",
-        images: image2
+        images: [image2,]
     },
     {
         name: "Mercel Swivel Arm Chair",
@@ -94,7 +94,7 @@ export const data: Product[] = [
         shortDescription: "Modern swivel arm chair with premium upholstery.",
         dimensions: "35\" H x 28\" W x 30\" D",
         category: "Furniture",
-        images: image3
+        images: [image3]
     },
     {
         name: "Serpent Sofa",
@@ -104,7 +104,7 @@ export const data: Product[] = [
         shortDescription: "Bold, serpentine sofa with luxurious fabric upholstery.",
         dimensions: "34\" H x 85\" W x 38\" D",
         category: "Furniture",
-        images: image4
+        images: [image4]
     },
     {
         "name": "Wooden Coffee Table",
@@ -114,7 +114,7 @@ export const data: Product[] = [
         "shortDescription": "Modern wooden coffee table.",
         "dimensions": "18\" H x 24\" W x 24\" D",
         "category": "Furniture",
-        "images": image5
+        "images": [image5]
     },
     {
         "name": "Glass Dining Table",
@@ -124,7 +124,7 @@ export const data: Product[] = [
         "shortDescription": "Contemporary glass dining table.",
         "dimensions": "30\" H x 60\" W x 36\" D",
         "category": "Furniture",
-        "images": image6
+        "images": [image6]
     },
     {
         "name": "Vintage Chair",
@@ -134,7 +134,7 @@ export const data: Product[] = [
         "shortDescription": "Classic wooden chair.",
         "dimensions": "35\" H x 18\" W x 20\" D",
         "category": "Furniture",
-        "images": image7
+        "images": [image7]
     },
     {
         "name": "Modern Sofa",
@@ -144,7 +144,7 @@ export const data: Product[] = [
         "shortDescription": "Sleek and comfortable modern sofa.",
         "dimensions": "34\" H x 80\" W x 35\" D",
         "category": "Furniture",
-        "images": image8
+        "images": [image8]
     },
     {
         "name": "Rustic Bookshelf",
@@ -154,7 +154,7 @@ export const data: Product[] = [
         "shortDescription": "Charming rustic bookshelf.",
         "dimensions": "72\" H x 36\" W x 12\" D",
         "category": "Furniture",
-        "images": image9
+        "images": [image9]
     },
     {
         "name": "Leather Recliner",
@@ -164,7 +164,7 @@ export const data: Product[] = [
         "shortDescription": "Comfortable leather recliner.",
         "dimensions": "40\" H x 36\" W x 38\" D",
         "category": "Furniture",
-        "images": image10
+        "images": [image10]
     },
     {
         "name": "Elegant Bed Frame",
@@ -174,7 +174,7 @@ export const data: Product[] = [
         "shortDescription": "Sleek and sturdy bed frame.",
         "dimensions": "50\" H x 60\" W x 80\" D",
         "category": "Furniture",
-        "images": image11
+        "images": [image11]
     },
     {
         "name": "Minimalist Nightstand",
@@ -184,7 +184,7 @@ export const data: Product[] = [
         "shortDescription": "Simple and elegant nightstand.",
         "dimensions": "24\" H x 20\" W x 18\" D",
         "category": "Furniture",
-        "images": image12
+        "images": [image12]
     },
     {
         "name": "Office Desk",
@@ -194,7 +194,7 @@ export const data: Product[] = [
         "shortDescription": "Spacious and sleek office desk.",
         "dimensions": "30\" H x 48\" W x 24\" D",
         "category": "Furniture",
-        "images": image13
+        "images": [image13]
     },
     {
         "name": "Marble Side Table Recliner",
@@ -204,7 +204,7 @@ export const data: Product[] = [
         "shortDescription": "Luxurious marble table Recliner with sleek metal frame.",
         "dimensions": "20\" H x 18\" W x 18\" D",
         "category": "Furniture",
-        "images": image14
+        "images": [image14]
     },
     {
         "name": "DUSK FLOOR LAMP",
@@ -356,6 +356,9 @@ export function getData(arr: number[]) {
     return neededData
 }
 
+export function isImageArray(images: StaticImageData | StaticImageData[]): images is StaticImageData[] {
+    return Array.isArray(images);
+}
 
 
 

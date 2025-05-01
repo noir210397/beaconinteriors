@@ -2,7 +2,12 @@
 
 import { AiOutlinePlus } from "react-icons/ai";
 import { AiOutlineMinus } from "react-icons/ai";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+interface Props {
+  header: string;
+  text: string;
+}
+
 interface Props {
   header: string;
   text: string;
@@ -10,21 +15,44 @@ interface Props {
 
 const Accordion = ({ header, text }: Props) => {
   const [open, setOpen] = useState(false);
-  function openAccordion() {
+  const [height, setHeight] = useState("0px");
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  const toggleAccordion = () => {
+    if (!open && contentRef.current) {
+      const scrollHeight = contentRef.current.scrollHeight;
+      setHeight(`${scrollHeight}px`);
+    } else {
+      setHeight("0px");
+    }
     setOpen(!open);
-  }
+  };
+
   return (
-    <div className=" w-full lg:max-w-none  ">
+    <div className="w-full lg:max-w-none">
       <div
-        className="flex justify-between items-center p-2 w-full cursor-pointer "
-        onClick={openAccordion}
+        className="flex justify-between items-center p-2 w-full cursor-pointer"
+        onClick={toggleAccordion}
       >
         <span className="text-lg font-semibold capitalize">{header}</span>
         <span className="text-2xl">
           {open ? <AiOutlineMinus /> : <AiOutlinePlus />}
         </span>
       </div>
-      <div className={`${open ? "h-max p-2" : "h-0 p-0"} overflow-hidden `}>
+
+      <div
+        ref={contentRef}
+        style={{ height }}
+        className={`overflow-hidden transition-all duration-75 ease-linear ${
+          open ? "p-2" : "p-0"
+        }`}
+        onTransitionEnd={() => {
+          // Allow auto height after animation finishes (for responsiveness)
+          if (open && contentRef.current) {
+            contentRef.current.style.height = "auto";
+          }
+        }}
+      >
         {text}
       </div>
     </div>

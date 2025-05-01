@@ -5,11 +5,9 @@ import React, { useEffect, useRef, useState } from "react";
 import tw from "tailwind-styled-components";
 import Card from "./Card";
 import { Product } from "@/products";
-import Link from "next/link";
 const CarouselWrapper = tw.div` carousel flex overflow-x-scroll gap-3 pb-2 snap-x snap-mandatory  scroll-smooth  `;
 const Container = tw.div`p-2 `;
 const ButtonConatiner = tw.div` flex justify-center items-center py-4`;
-// const arr = randNum(8);
 
 const Carousel = ({ data }: { data: Product[] }) => {
   const wrapperRef = useRef<HTMLDivElement | null>(null);

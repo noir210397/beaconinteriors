@@ -22,15 +22,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`font-lora  bg-secondary  text-mydark  text-sm lg:text-base min-h-screen w-full flex flex-col`}
+        className={`font-lora  bg-secondary  text-mydark  text-sm lg:text-base min-h-screen w-full flex flex-col overflow-x-hidden`}
       >
         <StoreProvider>
           <MyApp>
             <NavBar />
             <Toaster richColors />
-            <div className="mt-16 flex-1 border-2 border-red-700  relative pb-5 ">
-              {children}
-            </div>
+            <div className="mt-16 flex-1  relative pb-5 ">{children}</div>
             <Footer />
           </MyApp>
         </StoreProvider>

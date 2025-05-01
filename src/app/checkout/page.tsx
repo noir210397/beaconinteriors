@@ -1,5 +1,5 @@
 "use client";
-import { AiOutlineClose } from "react-icons/ai";
+// import { AiOutlineClose } from "react-icons/ai";
 import Label from "@/components/Label";
 import PageHeaders from "@/components/PageHeaders";
 import SelectInput from "@/components/SelectInput";
@@ -9,8 +9,14 @@ import React from "react";
 import { useSelector } from "react-redux";
 import tw from "tailwind-styled-components";
 import CartTable from "@/components/CartTable";
-import SingleOpenAccordion from "@/components/home/SingleOpenAccordion";
+// import SingleOpenAccordion from "@/components/home/SingleOpenAccordion";
 import { redirect } from "next/navigation";
+import {
+  AccordionContent,
+  AccordionHeader,
+  AccordionItem,
+  AccordionRoot,
+} from "@/components/accordion/Accordion";
 const Header = tw.p`uppercase text-3xl py-4`;
 const Container = tw.div``;
 const accordionVals = [
@@ -68,7 +74,35 @@ const Page = () => {
           </CartTable>
           <div className="border-b-2 py-4">
             <Header>payment methods</Header>
-            <SingleOpenAccordion items={accordionVals} />
+            <AccordionRoot type="single">
+              {accordionVals.map((val) => {
+                return (
+                  <AccordionItem key={val.title} value={val.title}>
+                    <AccordionHeader asChild hasIcon={false}>
+                      <label htmlFor="">
+                        <input
+                          name="payment"
+                          value={val.content}
+                          type="radio"
+                          className=" mr-2 accent-primary scale-110"
+                        />
+                        {val.title}
+                      </label>
+                    </AccordionHeader>
+                    <AccordionContent animate>
+                      <div
+                        className={`relative capitalize h-[50px] mb-2
+                          bg-white flex px-2 items-center transition-all ease-linear duration-75`}
+                      >
+                        <div className="left-[30px] bottom-[50px] w-0 h-0 border-r-[12px] border-l-[12px] border-b-[13px]   border-transparent border-b-white absolute "></div>
+                        {val.content}
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                );
+              })}
+            </AccordionRoot>
+            {/* <SingleOpenAccordion items={accordionVals} /> */}
           </div>
           <div className="pb-12 pt-5">
             <p className="py-2">

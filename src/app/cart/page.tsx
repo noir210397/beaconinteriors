@@ -6,10 +6,8 @@ import { cart } from "@/store/cart";
 import { useSelector } from "react-redux";
 import Link from "next/link";
 import { data } from "@/products";
-// import Image from "next/image";
 import tw from "tailwind-styled-components";
 import CartTable from "@/components/CartTable";
-// import RemoveFromCartButton from "@/components/RemoveFromCartButton";
 import CartPageCard from "@/components/CartPageCard";
 const Header = tw.p`uppercase text-3xl py-4 max-[650px]:text-center`;
 
