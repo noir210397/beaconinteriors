@@ -79,7 +79,7 @@ const Page = () => {
                 return (
                   <AccordionItem key={val.title} value={val.title}>
                     <AccordionHeader asChild hasIcon={false}>
-                      <label htmlFor="">
+                      <label className="capitalize">
                         <input
                           name="payment"
                           value={val.content}
@@ -94,7 +94,7 @@ const Page = () => {
                         className={`relative capitalize h-[50px] mb-2
                           bg-white flex px-2 items-center transition-all ease-linear duration-75`}
                       >
-                        <div className="left-[30px] bottom-[50px] w-0 h-0 border-r-[12px] border-l-[12px] border-b-[13px]   border-transparent border-b-white absolute "></div>
+                        <div className="left-[30px]  bottom-[50px] w-0 h-0 border-r-[12px] border-l-[12px] border-b-[13px]   border-transparent border-b-white absolute "></div>
                         {val.content}
                       </div>
                     </AccordionContent>

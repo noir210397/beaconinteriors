@@ -8,13 +8,13 @@ import {
   AccordionTrigger,
   AccordionHeaderProps,
   AccordionContentProps,
+  AccordionSingleProps,
+  AccordionMultipleProps,
 } from "@radix-ui/react-accordion";
 import { BiChevronDown } from "react-icons/bi";
+import { twMerge } from "tailwind-merge";
 
-function AccordionRoot(props: {
-  type: "single" | "multiple";
-  children: ReactNode;
-}) {
+function AccordionRoot(props: AccordionSingleProps | AccordionMultipleProps) {
   return <Accordion type={props.type}>{props.children}</Accordion>;
 }
 function AccordionContent({
@@ -32,16 +32,17 @@ function AccordionContent({
 function AccordionHeader({
   hasIcon,
   children,
+  className,
   ...rest
 }: AccordionHeaderProps & { hasIcon: boolean }) {
   return (
     <Header {...rest} asChild>
-      <AccordionTrigger asChild className="trigger py-2">
+      <AccordionTrigger asChild className={twMerge("trigger py-2 ", className)}>
         <div className="flex min-w-full justify-between">
           <div className="font-semibold">{children}</div>
           {hasIcon && (
             <span>
-              <BiChevronDown className={`chevron text-xl`} />
+              <BiChevronDown className={`chevron text-2xl`} />
             </span>
           )}
         </div>

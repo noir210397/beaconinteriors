@@ -181,12 +181,6 @@ const SingleProduct = ({ params }: Props) => {
               )}
             </AccordionRoot>
           </div>
-          {/* {item.shortDescription && (
-            <Accordion header={`description`} text={item.description} />
-          )} */}
-          {/* {item.dimensions && (
-            <Accordion header={`dimensions`} text={item.dimensions} />
-          )} */}
         </StickyContainer>
         <Wrapper>
           {Array.isArray(item.images) ? (
@@ -286,7 +280,6 @@ function SingleProductCarousel({
           "#decoy-image"
         )! as HTMLDivElement;
         card.style.opacity = "1";
-        console.log(card);
         initialRender.current = false;
         decoyImage.style.display = "none";
         // decoyImage.style.opacity = "0";
