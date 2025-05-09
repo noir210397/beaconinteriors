@@ -1,16 +1,11 @@
 "use client";
 import { AiOutlineClose } from "react-icons/ai";
-import {
-  AiOutlineArrowLeft,
-  AiOutlineArrowRight,
-  AiOutlineHeart,
-} from "react-icons/ai";
-import { data, isImageArray, Product } from "@/products";
+import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
+import { data, Product } from "@/products";
 import { notFound } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import tw from "tailwind-styled-components";
 import Image from "next/image";
-import Accordion from "@/components/Accordion";
 import SectionHeaders from "@/components/SectionHeaders";
 import Card from "@/components/Card";
 import SetQuantity from "./SetQuantity";
@@ -90,6 +85,15 @@ const SingleProduct = ({ params }: Props) => {
     )?.quantity || 0;
   const relatedProducts = getRelatedProducts();
   if (!item) notFound();
+  useEffect(() => {
+    if (modal) {
+      document.documentElement.style.overflow = "hidden";
+      document.body.style.overflow = "hidden";
+    } else {
+      document.documentElement.style.overflow = "";
+      document.body.style.overflow = "";
+    }
+  }, [modal]);
 
   function checkIsQuantity() {
     const num = parseInt(ref.current!.value!.trim() as string);
@@ -112,7 +116,10 @@ const SingleProduct = ({ params }: Props) => {
   return (
     <div className="relative">
       {modal && (
-        <Modal $modal={modal} onClick={() => setModal(null)}>
+        <Modal role="dialog" $modal={modal} onClick={() => setModal(null)}>
+          <Button className="text-2xl absolute top-4 left-4 font-extrabold">
+            <AiOutlineClose />
+          </Button>
           <AnimatePresence>
             <SingleProductCarousel
               item={item}
@@ -290,6 +297,7 @@ function SingleProductCarousel({
 
   return (
     <>
+      {/* decoy card */}
       <MotionImage
         ref={scope}
         src={item.images[visibleImage - 1]}
@@ -304,7 +312,7 @@ function SingleProductCarousel({
           objectFit: "none",
           position: "fixed",
         }}
-        transition={{ duration: 0.2 }}
+        transition={{ duration: 0.2, ease: "linear" }}
       />
       <button
         disabled={visibleImage === 1}
@@ -317,7 +325,7 @@ function SingleProductCarousel({
       >
         <AiOutlineArrowLeft />
       </button>
-
+      {/* this is the carousel */}
       <motion.div className=" relative w-full overflow-hidden">
         <div
           style={{ transform: `translateX(-${(visibleImage - 1) * 100}%)` }}

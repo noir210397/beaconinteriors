@@ -68,7 +68,7 @@ export const data: Product[] = [
     },
     {
         name: "Klismos Chair",
-        price: 249.99,
+        price: 249,
         description: "The Klismos Chair is a timeless piece, featuring elegantly curved legs and a comfortable, contoured backrest. Its classical design is inspired by ancient Greek furniture, offering both aesthetic appeal and ergonomic support. Perfect for any setting, from dining rooms to reading nooks.",
         inStock: 15,
         shortDescription: "Elegant, ergonomic chair inspired by ancient Greek design.",
@@ -78,7 +78,7 @@ export const data: Product[] = [
     },
     {
         name: "Marble Side Table",
-        price: 199.99,
+        price: 199,
         description: "The Marble Side Table combines luxurious marble with a sleek metal frame, creating a sophisticated and functional piece. Ideal for living rooms, bedrooms, or offices, this table offers both style and durability. Its compact size makes it perfect for smaller spaces while still providing ample surface area.",
         inStock: 28,
         shortDescription: "Luxurious marble table with sleek metal frame.",
@@ -88,7 +88,7 @@ export const data: Product[] = [
     },
     {
         name: "Mercel Swivel Arm Chair",
-        price: 329.99,
+        price: 329,
         description: "The Mercel Swivel Arm Chair offers modern elegance with its sleek design and smooth swivel functionality. Upholstered in premium fabric, it features a comfortable padded seat and backrest. Ideal for office or home use, this chair provides both style and ergonomic support.",
         inStock: 275,
         shortDescription: "Modern swivel arm chair with premium upholstery.",
@@ -98,7 +98,7 @@ export const data: Product[] = [
     },
     {
         name: "Serpent Sofa",
-        price: 899.99,
+        price: 899,
         description: "The Serpent Sofa features a bold, serpentine design that adds a touch of modern sophistication to any living space. Upholstered in luxurious fabric with plush cushioning, this sofa offers exceptional comfort and style. Perfect for large living rooms or as a statement piece.",
         inStock: 175,
         shortDescription: "Bold, serpentine sofa with luxurious fabric upholstery.",
@@ -108,7 +108,7 @@ export const data: Product[] = [
     },
     {
         "name": "Wooden Coffee Table",
-        "price": 149.99,
+        "price": 149,
         "description": "The Wooden Coffee Table features a rich wood finish and a modern design. Perfect for any living room, it offers both style and functionality with ample surface area and a sturdy build.",
         "inStock": 15,
         "shortDescription": "Modern wooden coffee table.",
@@ -118,7 +118,7 @@ export const data: Product[] = [
     },
     {
         "name": "Glass Dining Table",
-        "price": 499.99,
+        "price": 499,
         "description": "The Glass Dining Table boasts a sleek glass top with a sturdy metal frame. Perfect for any dining room, it offers a contemporary look while being highly functional and durable.",
         "inStock": 10,
         "shortDescription": "Contemporary glass dining table.",
@@ -128,7 +128,7 @@ export const data: Product[] = [
     },
     {
         "name": "Vintage Chair",
-        "price": 89.99,
+        "price": 89,
         "description": "The Vintage Chair combines classic design with comfort. Made from high-quality wood, this chair is perfect for any dining room or kitchen, adding a touch of elegance and durability.",
         "inStock": 20,
         "shortDescription": "Classic wooden chair.",
@@ -138,7 +138,7 @@ export const data: Product[] = [
     },
     {
         "name": "Modern Sofa",
-        "price": 699.99,
+        "price": 699,
         "description": "The Modern Sofa offers a sleek design with plush cushions, providing both comfort and style. Ideal for any living room, this sofa is durable and perfect for relaxation.",
         "inStock": 5,
         "shortDescription": "Sleek and comfortable modern sofa.",
@@ -148,7 +148,7 @@ export const data: Product[] = [
     },
     {
         "name": "Rustic Bookshelf",
-        "price": 299.99,
+        "price": 299,
         "description": "The Rustic Bookshelf features a charming wood finish and multiple shelves, perfect for storing books, decor, and more. Its sturdy construction and classic design make it a versatile addition to any room.",
         "inStock": 12,
         "shortDescription": "Charming rustic bookshelf.",
@@ -158,7 +158,7 @@ export const data: Product[] = [
     },
     {
         "name": "Leather Recliner",
-        "price": 399.99,
+        "price": 399,
         "description": "The Leather Recliner offers ultimate comfort with its plush seating and reclining feature. Made from high-quality leather, this recliner is perfect for any living room or office.",
         "inStock": 8,
         "shortDescription": "Comfortable leather recliner.",
@@ -168,7 +168,7 @@ export const data: Product[] = [
     },
     {
         "name": "Elegant Bed Frame",
-        "price": 599.99,
+        "price": 599,
         "description": "The Elegant Bed Frame combines a sleek design with sturdy construction. Perfect for any bedroom, this bed frame offers both style and durability, ensuring a good night's sleep.",
         "inStock": 7,
         "shortDescription": "Sleek and sturdy bed frame.",
@@ -178,7 +178,7 @@ export const data: Product[] = [
     },
     {
         "name": "Minimalist Nightstand",
-        "price": 129.99,
+        "price": 129,
         "description": "The Minimalist Nightstand features a simple yet elegant design, offering a perfect balance of style and functionality. Ideal for any bedroom, this nightstand includes a drawer and open shelf for storage.",
         "inStock": 25,
         "shortDescription": "Simple and elegant nightstand.",
@@ -188,7 +188,7 @@ export const data: Product[] = [
     },
     {
         "name": "Office Desk",
-        "price": 249.99,
+        "price": 249,
         "description": "The Office Desk provides a spacious work surface and a sleek design. Perfect for any home office, it offers ample storage with drawers and shelves, keeping your workspace organized and efficient.",
         "inStock": 30,
         "shortDescription": "Spacious and sleek office desk.",
@@ -198,7 +198,7 @@ export const data: Product[] = [
     },
     {
         "name": "Marble Side Table Recliner",
-        "price": 209.99,
+        "price": 209,
         "description": "The Marble Side Table combines luxurious marble with a sleek metal frame, creating a sophisticated and functional piece. Ideal for living rooms, bedrooms, or offices, this table offers both style and durability. Its compact size makes it perfect for smaller spaces while still providing ample surface area.",
         "inStock": 28,
         "shortDescription": "Luxurious marble table Recliner with sleek metal frame.",
@@ -208,7 +208,7 @@ export const data: Product[] = [
     },
     {
         "name": "DUSK FLOOR LAMP",
-        "price": 130.99,
+        "price": 130,
         "description": `The slender Dusk Floor Lamp fills your space with warm light and streamlined style. Featuring a tall fabric shade, this lamp is anchored by a sturdy walnut base that draws the eye and supports the artistic, slender stem. 
         *Limited quantities available. For store availability contact your local showroom.`,
         "inStock": 23,
@@ -318,24 +318,7 @@ export const data: Product[] = [
         "images": [image61, image612]
     },
 ]
-// export function randNum(n: number, numArr?: number[]) {
-//     const arr = numArr || []
 
-//     if (arr.length >= n) {
-//         return arr;
-//     } else {
-//         const num = Math.floor(Math.random() * 25);
-//         if (
-//             !arr.find((item) => {
-//                 return item === num;
-//             })
-//         ) {
-//             arr.push(num);
-//         }
-//         return randNum(n, arr);
-
-//     }
-// }
 export function randNum(n: number): number[] {
     const arr: number[] = [];
 

@@ -20,14 +20,16 @@ const Services = () => {
           />
         </div>
         <div className="flex  justify-center flex-1  text-center md:max-w-[500px] md:p-10 p-5">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium
-          hic praesentium consequuntur porro blanditiis aperiam nesciunt eos
-          odit, dolores laudantium id consequatur obcaecati delectus optio
-          repellat qui reiciendis harum rerum? Saepe molestiae autem excepturi.
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam modi
-          tenetur beatae ullam vel fuga impedit repellat consequuntur minima
-          itaque, dicta repudiandae reiciendis ad perferendis voluptas eligendi
-          ut sint reprehenderit.
+          At Beacon Interiors, our services are built around your vision. We
+          offer a full spectrum of interior design and custom furniture
+          solutions tailored to elevate every corner of your home or workspace.
+          From personalized consultations and space planning to material
+          selection and final styling, we ensure a seamless experience from
+          start to finish. Our team collaborates closely with you to create
+          interiors that are functional, refined, and uniquely yours. Whether
+          you are refreshing a single room or undertaking a full renovation,
+          Beacon Interiors brings craftsmanship, creativity, and care to every
+          project.
         </div>
       </div>
       <SectionLinks link="our services" />

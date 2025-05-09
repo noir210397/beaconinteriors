@@ -3,6 +3,7 @@ import RemoveFromCartButton from "./RemoveFromCartButton";
 import { ProductWithQuantity } from "@/store/cart";
 import { data } from "@/products";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const CartPageCard = ({
   inStock,
@@ -11,8 +12,11 @@ const CartPageCard = ({
   quantity,
   borderBottom,
 }: ProductWithQuantity & { borderBottom?: boolean }) => {
-  const imageData = data.find((item) => item.name === name)!.images;
-  const imageSrc = Array.isArray(imageData) ? imageData[0] : imageData;
+  const images = data.find((item) => item.name === name)!.images;
+  const router = useRouter();
+  const navigate = () => {
+    router.push(`/product/${name.replaceAll(" ", "-").toLowerCase()}`);
+  };
 
   return (
     <tr
@@ -23,7 +27,7 @@ const CartPageCard = ({
     >
       <td className="max-[650px]:hidden py-10">
         <Image
-          src={imageSrc}
+          src={images[0]}
           alt={name}
           className="w-32 aspect-square object-contain"
         />
@@ -47,7 +51,9 @@ const CartPageCard = ({
           <tbody>
             <tr className=" border-b border-b-black">
               <td className="uppercase font-extrabold pr-3 py-4">product:</td>
-              <td className="text-end uppercase">{name}</td>
+              <td onClick={navigate} className="text-end uppercase">
+                {name}
+              </td>
             </tr>
             <tr className=" border-b border-b-black">
               <td className="uppercase font-extrabold pr-3 py-4">price:</td>

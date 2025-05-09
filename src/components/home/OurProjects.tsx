@@ -25,10 +25,15 @@ const OurProjects = () => {
       </div>
       <div className="p-4 flex flex-col items-center md:items-start">
         <p className="max-w-lg text-center">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis ad
-          eligendi quibusdam temporibus ab. Ad facilis recusandae architecto
-          alias eius dolorum, nostrum modi neque culpa cumque saepe earum
-          similique. Deserunt?
+          At Beacon Interiors, we believe great design begins with purpose. Our
+          bespoke furniture and interior solutions are crafted to reflect the
+          unique character of every space we touch. Whether its a modern
+          minimalist apartment or a warm, rustic retreat, our projects balance
+          function and beauty with precision. With a focus on high-quality
+          materials, thoughtful craftsmanship, and timeless aesthetics, we help
+          transform ordinary rooms into inspired environments. From concept to
+          completion, Beacon Interiors brings clarity, elegance, and comfort to
+          your living spaces—guiding you home with design that shines.
         </p>
         <SectionLinks link="visit projects" />
       </div>

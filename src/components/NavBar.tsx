@@ -15,6 +15,7 @@ import { usePathname } from "next/navigation";
 import CartData from "./cart/CartData";
 import SearchModal from "./SearchModal";
 import { AnimatePresence, useAnimate, motion } from "framer-motion";
+import AnimatedLink from "./AnimatedLink/AnimatedLink";
 
 type CartProps = {
   $isopen: boolean;
@@ -53,7 +54,6 @@ const links = [
 ];
 
 const NavBar = () => {
-  const [scope, animate] = useAnimate();
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const [cartOpen, setCartOpen] = useState<boolean>(false);
   const [searchOpen, setSearchOpen] = useState<boolean>(false);
@@ -73,11 +73,13 @@ const NavBar = () => {
     cartRef.current?.scrollTo(0, 0);
     if (cartOpen || menuOpen) {
       document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
     }
 
     // Cleanup function
     return () => {
       document.body.style.overflow = originalOverflow;
+      document.documentElement.style.overflow = "";
     };
   }, [cartOpen, menuOpen]);
   useEffect(() => {
@@ -140,42 +142,23 @@ const NavBar = () => {
             <AiOutlineHeart />
           </Link>
         </div>
-        <LinkWrapper ref={scope}>
+        <LinkWrapper>
           {links.map((link) => (
-            <MotionLink
-              onHoverStart={() => {
-                animate(
-                  `.${link.name.replace(" ", "-")}>span`,
-                  { width: "100%" },
-                  { duration: 0.1 }
-                );
-              }}
-              onHoverEnd={() => {
-                animate(
-                  `.${link.name.replace(" ", "-")}>span`,
-                  { width: 0 },
-                  { duration: 0.1 }
-                );
-              }}
+            <AnimatedLink
               key={link.name}
-              className={`${link.name.replace(
-                " ",
-                "-"
-              )} uppercase relative text-mydark font-extrabold lg:font-semibold text-lg lg:text-base`}
               href={`${link.path}`}
               onClick={() => {
                 setCartOpen(false);
                 setMenuOpen(false);
               }}
             >
-              <span className="w-0 h-[1.4px] bg-mydark absolute bottom-0 left-1/2 -translate-x-1/2"></span>
               {link.name}
-            </MotionLink>
+            </AnimatedLink>
           ))}
         </LinkWrapper>
       </div>
-      <div className="flex items-center justify-center gap-2 ">
-        <div className="hidden min-[500px]:flex  gap-2  items-center">
+      <div className="flex items-center justify-center min-[500px]:gap-4 max-[500px]:gap-2  ">
+        <div className="hidden min-[500px]:flex  gap-4  items-center">
           <button onClick={openSearch} className="text-xl font-extrabold ">
             <BiSearch />
           </button>

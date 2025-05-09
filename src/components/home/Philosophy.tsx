@@ -40,10 +40,17 @@ const Philosophy = () => {
       </div>
       <div className="p-4 flex flex-col items-center md:items-start">
         <p className="max-w-lg text-center">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis ad
-          eligendi quibusdam temporibus ab. Ad facilis recusandae architecto
-          alias eius dolorum, nostrum modi neque culpa cumque saepe earum
-          similique. Deserunt?
+          Welcome to a world where style meets comfort. At Beacon Interiors, we
+          craft timeless furniture pieces that elevate your space and reflect
+          your personal taste. Whether you are furnishing a cozy apartment or
+          redesigning your dream home, our expertly curated collections are
+          designed to inspire. From sleek modern lines to classic wooden
+          finishes, each piece is built with premium materials and exceptional
+          attention to detail. We believe your furniture should not only look
+          good but feel right—offering lasting durability and everyday
+          functionality. Discover sofas, chairs, tables, and more that fit
+          seamlessly into your lifestyle. Let your home tell your story through
+          pieces that matter.
         </p>
         <SectionLinks link="read more +" />
       </div>

@@ -1,0 +1,23 @@
+.link{
+    position: relative;
+}
+.link::after{
+    
+}
+@keyframes animateIn {
+	from {
+		height: 0;
+	}
+	to {
+		height: var(--radix-accordion-content-height);
+	}
+}
+
+@keyframes animateOut {
+	from {
+		height: var(--radix-accordion-content-height);
+	}
+	to {
+		height: 0;
+	}
+}

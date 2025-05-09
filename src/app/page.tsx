@@ -6,11 +6,11 @@ import Hero from "@/components/home/Hero";
 import OurProjects from "@/components/home/OurProjects";
 import Philosophy from "@/components/home/Philosophy";
 import Services from "@/components/home/Services";
-import useSpecificHeightScrolling from "@/hooks/useSpecificHeightScrolling";
+// import useSpecificHeightScrolling from "@/hooks/useSpecificHeightScrolling";
 import { getData, randNum } from "@/products";
 
 export default function Home() {
-  useSpecificHeightScrolling();
+  // useSpecificHeightScrolling();
   const arr = randNum(8);
   const data = getData(arr);
   return (

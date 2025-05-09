@@ -1,5 +1,8 @@
+import { data, Product } from "@/products";
 import { useAnimate, motion, usePresence } from "framer-motion";
-import { useEffect, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { ChangeEvent, useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import tw from "tailwind-styled-components";
 
@@ -21,6 +24,10 @@ const colorTransition = [
 const SearchModal = ({ openSearch }: Props) => {
   const [scope, animate] = useAnimate();
   const [isPresent, safeToRemove] = usePresence();
+  const [search, setSearch] = useState<{
+    products: Product[];
+    searching: boolean;
+  }>({ products: [], searching: false });
   useEffect(() => {
     if (isPresent) {
       const enterAnimation = () => {
@@ -50,6 +57,19 @@ const SearchModal = ({ openSearch }: Props) => {
       exitAnimation();
     }
   }, [isPresent]);
+  function filterData(e: ChangeEvent<HTMLInputElement>) {
+    const query = e.currentTarget.value.trim().toLowerCase();
+    if (query.length > 0) {
+      setSearch({
+        products: data.filter((item) =>
+          item.name.toLowerCase().includes(query)
+        ),
+        searching: true,
+      });
+    } else {
+      setSearch({ products: [], searching: false });
+    }
+  }
   return (
     <motion.div
       ref={scope}
@@ -61,9 +81,10 @@ const SearchModal = ({ openSearch }: Props) => {
       </button>
       <div className="relative flex flex-wrap gap-2 justify-center items-center">
         <input
+          onChange={filterData}
           type="text"
           placeholder="Search Products..."
-          className="text-2xl outline-none p-2 bg-secondary text-black placeholder:text-black opacity-0"
+          className="text-lg md:text-2xl outline-none p-2 bg-secondary text-black placeholder:text-black opacity-0"
         />
         <button className="uppercase border border-mydark text-mydark px-5 py-2 rounded search-button opacity-0 ">
           search
@@ -72,9 +93,35 @@ const SearchModal = ({ openSearch }: Props) => {
           initial={{ width: 0 }}
           className="h-[1px] bg-black line absolute left-0 -bottom-[12px]"
         ></motion.div>
+        <div className="absolute top-[calc(100%+13px)]  max-h-[250px] w-full overflow-y-auto">
+          {search.searching &&
+            search.products.length > 0 &&
+            search.products.map((item) => (
+              <SearchCard {...item} key={item.name} />
+            ))}
+          {search.searching && search.products.length === 0 && (
+            <span className="uppercase  p-2">no products found.</span>
+          )}
+        </div>
       </div>
     </motion.div>
   );
 };
 
 export default SearchModal;
+
+const SearchCard = ({ name, images }: Product) => {
+  return (
+    <Link
+      className="flex w-full gap-4  items-center"
+      href={`/product/${name.replaceAll(" ", "-").toLowerCase()}`}
+    >
+      <Image
+        src={images[0]}
+        alt={name}
+        className="w-[40px] aspect-square my-1"
+      />
+      <span>{name}</span>
+    </Link>
+  );
+};

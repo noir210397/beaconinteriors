@@ -23,11 +23,14 @@ const savedSlice = createSlice(
                 const isItem = state.find(item => item.toLowerCase() === action.payload.toLowerCase())
                 if (!isItem) {
                     state.push(action.payload)
-                    toast.success(`${action.payload} added to saved`)
+                    toast.success(`${action.payload} added to saved items`)
                     if (typeof window !== undefined) localStorage.setItem("saved", JSON.stringify(state))
                 }
                 else {
-                    toast.error(`${action.payload} is already saved`)
+                    const newState = state.filter(item => item.toLowerCase() !== action.payload.toLowerCase())
+                    if (typeof window !== undefined) localStorage.setItem("saved", JSON.stringify(newState))
+                    toast.error(`${action.payload} removed from saved items`)
+                    return newState
 
                 }
 

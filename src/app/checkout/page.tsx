@@ -109,11 +109,11 @@ const Page = () => {
               your personal data will be used to process your order, support
               your experience throughout this website.
             </p>
-            <label htmlFor="" className="uppercase text-lg py-2">
+            <label htmlFor="agreed" className="uppercase text-lg py-2">
               <input
                 type="checkbox"
-                name=""
-                id=""
+                name="agreed"
+                id="agreed"
                 className="scale-125 mr-2 accent-primary "
               />
               I have read and agree to this

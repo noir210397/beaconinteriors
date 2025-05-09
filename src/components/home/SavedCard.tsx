@@ -6,6 +6,7 @@ import { data } from "@/products";
 import Image from "next/image";
 import { useAppDispatch } from "@/store/hooks";
 import { removeFromSaved } from "@/store/saved";
+import { addToCart } from "@/store/cart";
 
 const SavedCard = ({ saved }: { saved: string }) => {
   const { name, price } = data.find((item) => item.name === saved)!;
@@ -48,7 +49,10 @@ const SavedCard = ({ saved }: { saved: string }) => {
             <span> $ {price}</span>
           </p>
 
-          <button className="border-primary capitalize border px-4 py-2 rounded block w-fit my-2">
+          <button
+            onClick={() => dispatch(addToCart(name))}
+            className="border-primary capitalize border px-4 py-2 rounded block w-fit my-2"
+          >
             add to cart
           </button>
           <button
