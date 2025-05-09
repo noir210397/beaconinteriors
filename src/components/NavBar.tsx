@@ -66,12 +66,13 @@ const NavBar = () => {
   useEffect(() => {
     setMenuOpen(false);
     setCartOpen(false);
+    setSearchOpen(false);
   }, [pathname]);
 
   useEffect(() => {
     const originalOverflow = document.body.style.overflow;
     cartRef.current?.scrollTo(0, 0);
-    if (cartOpen || menuOpen) {
+    if (cartOpen || menuOpen || searchOpen) {
       document.body.style.overflow = "hidden";
       document.documentElement.style.overflow = "hidden";
     }
@@ -81,7 +82,7 @@ const NavBar = () => {
       document.body.style.overflow = originalOverflow;
       document.documentElement.style.overflow = "";
     };
-  }, [cartOpen, menuOpen]);
+  }, [cartOpen, menuOpen, searchOpen]);
   useEffect(() => {
     const handleScroll = () => {
       if (document.documentElement.scrollTop > 64) {
