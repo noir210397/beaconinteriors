@@ -17,7 +17,10 @@ const RemoveFromCartButton = ({
     <button
       {...rest}
       className={`${className}`}
-      onClick={() => dispatch(removeItemFromCart(itemName))}
+      onClick={(e) => {
+        e.stopPropagation();
+        dispatch(removeItemFromCart(itemName));
+      }}
     >
       {children}
     </button>
